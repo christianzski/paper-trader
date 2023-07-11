@@ -82,7 +82,7 @@ nextApp.prepare()
     server.get('/search/:symbol', async function (req, res) {
       await db_connect(async (db) => {
         const results = await db.collection('CompanyName').find({"Symbol":{"$regex":"^"
-        + req.params.symbol + ".*"}}).toArray();
+        + req.params.symbol + ".*"}}).limit(10).toArray();
 
         res.setHeader('Content-Type', 'application/json');
         res.send(results);
