@@ -2,7 +2,19 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
+body {}
+
+a:hover {
+	@apply underline;
+}
+
+.animate {
+	transition: all 250ms;
+}
+
+.landing {
+	background-image: url('/landing.jpg');
+	background-size: cover;
 }
 
 .btn {
