@@ -1,6 +1,6 @@
 const sgMail = require('@sendgrid/mail');
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
-const db = require('./db');
+const db = require('../db');
 
 module.exports = {
     api: async function(email, num, subject){
