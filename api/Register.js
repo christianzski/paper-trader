@@ -1,7 +1,7 @@
 const { v4: uuidv4 } = require('uuid');
 const { createHash } = require('crypto');
 const sendEmail = require('./sendEmail');
-const db = require('./db');
+const db = require('../db');
 
 module.exports = {
     api: async function(req, res) {
