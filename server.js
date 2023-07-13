@@ -12,10 +12,24 @@ const nextHandler = nextApp.getRequestHandler();
 const quote = require('./api/quote')
 const history = require('./api/history')
 const search = require('./api/search')
+const register = require('./api/Register');
+const login = require('./api/Login');
+const forgotPassword = require('./api/forgotPassword');
+
+const cookieParser = require('cookie-parser');
+
 
 nextApp.prepare()
   .then(() => {
     const server = express();
+
+    server.use(cookieParser());
+
+    server.post('api/Register', register.api);
+
+    server.post('api/Login', login.api);
+
+    server.post('api/Register', forgotPassword.api);
     
     // Get a quote
     server.get('/quote/:symbol', quote.api);

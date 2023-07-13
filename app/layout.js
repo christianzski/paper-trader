@@ -1,8 +1,14 @@
 import './globals.css'
-import Header from './header.js'
-import Landing from './components/landing.js'
-
 import { Roboto } from 'next/font/google'
+
+import { cookies, headers } from 'next/headers'
+import { redirect } from 'next/navigation'
+import Link from 'next/link'
+
+import Header from './header.js'
+import Redirect from './components/redirect.js'
+
+import authenticate from '../authenticate';
 
 const roboto = Roboto({
     weight: ['300', '400', '500'],
@@ -10,12 +16,22 @@ const roboto = Roboto({
     display: 'swap'
 });
 
-const loggedIn = true;
+// Call authenticate.login w/ client cookies to verify user is logged in or not
+const loggedIn = true;//await authenticate.login(cookies.user, cookies.session);
 
 export default function RootLayout({ children }) {
+    const path = headers().get("x-invoke-path");
+
+    const cookieStore = cookies();
+    
+    // Redirect to landing page if not logged in
+    if(!loggedIn && !(path == "/landing" || path == '/login' || path == '/register')) {
+        redirect("/landing");
+    }
+
     let content;
 
-    if(loggedIn) {
+    if(loggedIn || (path == '/login' || path == '/register')) {
         content = (<>
                    <div className = "m-2 flex justify-between">
                         <div className = "m-2 space-x-8 flex items-center">
@@ -49,13 +65,23 @@ export default function RootLayout({ children }) {
                     {children}
                     </>);
     } else {
-        content = (<Landing/>);
+        content = (<div className="landing h-screen">
+        <div className="flex items-center bg-slate-50/50 py-5">
+            <div className="mx-5">
+                <a href='/' className = "text-2xl">Home</a>
+            </div>
+            <a href='/about' className = "text-2xl">About</a>
+        </div>
+        
+        {children}
+        </div>);
     }
 
 
     return (
         <html lang="en" className={roboto.className}>
             <body>
+                <Redirect authenticated={loggedIn}/>
                 {content}
             </body>
         </html>

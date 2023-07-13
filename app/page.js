@@ -1,6 +1,6 @@
 
 import Link from 'next/link'
-
+import Chart from './components/chart'
 
 export default function Page() {
     return (
@@ -25,8 +25,9 @@ export default function Page() {
                         </div>
                     </div>
 
-                    <div className="w-full h-64 bg-slate-500">
-                        Chart
+                    <h3>Portfolio History</h3>
+                    <div className="w-full">
+                        <Chart data={[{pv: 0, Price: 10000}, {pv: 1, Price: 10000}]} domain={[9500, 10500]}/>
                     </div>
 
                     <div className="mt-5">
