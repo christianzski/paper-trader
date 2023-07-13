@@ -16,17 +16,20 @@ const register = require('./api/Register');
 const login = require('./api/Login');
 const forgotPassword = require('./api/forgotPassword');
 
+const cookieParser = require('cookie-parser');
 
 nextApp.prepare()
   .then(() => {
     const server = express();
 
-    server.api('api/Register', register.api);
+    server.use(cookieParser());
 
-    server.api('api/Login', login.api);
+    server.post('api/Register', register.api);
 
-    server.api('api/Register', forgotPassword.api);
-    
+    server.post('api/Login', login.api);
+
+    server.post('api/Register', forgotPassword.api);
+
     // Get a quote
     server.get('/quote/:symbol', quote.api);
 

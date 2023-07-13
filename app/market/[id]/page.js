@@ -1,5 +1,5 @@
 import { headers } from 'next/headers'
-import Chart from './chart.js'
+import Chart from '../../components/chart.js'
 
 export default async function Page({params}) {
   let quote = 0;

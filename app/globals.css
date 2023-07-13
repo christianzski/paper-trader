@@ -17,6 +17,14 @@ a:hover {
 	background-size: cover;
 }
 
+input {
+	@apply block pl-0 p-3 pr-10 w-full text-sm text-gray-900 bg-gray-50 outline-none border-b-2 border-gray-300 focus:border-gray-500;
+}
+
+input:focus {
+	@apply outline-none;
+}
+
 .btn {
 	@apply font-bold py-1 px-1 rounded;
 }
