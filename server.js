@@ -18,7 +18,6 @@ const forgotPassword = require('./api/forgotPassword');
 
 const cookieParser = require('cookie-parser');
 
-
 nextApp.prepare()
   .then(() => {
     const server = express();
@@ -30,7 +29,7 @@ nextApp.prepare()
     server.post('api/Login', login.api);
 
     server.post('api/Register', forgotPassword.api);
-    
+
     // Get a quote
     server.get('/quote/:symbol', quote.api);
 
