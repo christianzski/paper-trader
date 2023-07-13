@@ -12,10 +12,20 @@ const nextHandler = nextApp.getRequestHandler();
 const quote = require('./api/quote')
 const history = require('./api/history')
 const search = require('./api/search')
+const register = require('./api/Register');
+const login = require('./api/Login');
+const forgotPassword = require('./api/forgotPassword');
+
 
 nextApp.prepare()
   .then(() => {
     const server = express();
+
+    server.api('api/Register', register.api);
+
+    server.api('api/Login', login.api);
+
+    server.api('api/Register', forgotPassword.api);
     
     // Get a quote
     server.get('/quote/:symbol', quote.api);
