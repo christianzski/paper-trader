@@ -17,7 +17,7 @@ const roboto = Roboto({
 });
 
 // Call authenticate.login w/ client cookies to verify user is logged in or not
-const loggedIn = true;//await authenticate.login(cookies.user, cookies.session);
+const loggedIn = true; //await authenticate.login(cookies.user, cookies.session);
 
 export default function RootLayout({ children }) {
     const path = headers().get("x-invoke-path");
@@ -26,16 +26,23 @@ export default function RootLayout({ children }) {
     
     // Redirect to landing page if not logged in
     if(!loggedIn && !(path == "/landing" || path == '/login' || path == '/register')) {
-        redirect("/landing");
+        redirect("/");
+    } else {
+        // Allow the user to freely navigate pages.
     }
 
     let content;
 
     if(loggedIn || (path == '/login' || path == '/register')) {
-        content = (<>
+        content = (
+                    <div className = "border-b">
                    <div className = "m-2 flex justify-between">
                         <div className = "m-2 space-x-8 flex items-center">
                             <img src="/logo.png"/>
+                            
+                        </div>
+
+                        <div>
                             <Header/>
                         </div>
 
@@ -63,7 +70,7 @@ export default function RootLayout({ children }) {
                         </div>
                     </div>
                     {children}
-                    </>);
+                    </div>);
     } else {
         content = (<div className="landing h-screen">
         <div className="flex items-center bg-slate-50/50 py-5">

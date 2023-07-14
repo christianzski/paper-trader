@@ -6,6 +6,7 @@ body {}
 
 a:hover {
 	@apply underline;
+	text-decoration: none;
 }
 
 .animate {
@@ -35,4 +36,8 @@ input:focus {
 
 .btn-blue:hover {
 	@apply bg-blue-700;
+}
+
+.no-underline {
+	text-decoration: none;
 }
