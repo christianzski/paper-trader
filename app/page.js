@@ -1,43 +1,23 @@
-
-import Link from 'next/link'
-import Chart from './components/chart'
+import Link from 'next/link';
 
 export default function Page() {
-    return (
-        <main className="flex flex-col items-center">
-            <div className="grid p-5 w-full grid-flow-row-dense grid-cols-3 grid-rows-1">
-                <div className="col-span-2">
-                    <div className="flex justify-between items-center mb-1">
-                        <div>
-                            <div className="inline-block bg-purple-300 px-3 mr-1 rounded-full font-bold">1 Month</div>
-                            <div className="h-full inline-block">
-                                -
-                            </div>
+    return (<>
+        <h1 className="font-bold text-4xl text-center mt-10 mb-3">
+            Welcome to Paper<br/>Trading
+        </h1>
 
-                            <div className="inline-block bg-purple-300 px-3 ml-1 rounded-full font-bold">14%</div>
-                        </div>
+        <p className="text-md text-center">Stock Trading Made Easy</p>
 
-                        <div>
-                            <p className="font-bold">Portfolio Balance</p>
-                            <div className="bg-teal-300 rounded-full w-full text-center">
-                                $ 7050
-                            </div>
-                        </div>
-                    </div>
+        <div className = "text-center m-5 mt-16">
+            <Link href="/login">
+                <button className="animate w-64 bg-emerald-400 hover:bg-emerald-500 hover:underline rounded-full py-2 px-10">Login</button>
+            </Link>
+        </div>
 
-                    <h3>Portfolio History</h3>
-                    <div className="w-full">
-                        <Chart data={[{pv: 0, Price: 10000}, {pv: 1, Price: 10000}]} domain={[9500, 10500]}/>
-                    </div>
-
-                    <div className="mt-5">
-                        <h3 className="font-bold font-lg">Favorited</h3>
-                    </div>
-                </div>
-                <div className="text-center">
-                    Stock Portfolio
-                </div>
-            </div>
-        </main>
-    );
+        <div className = "text-center m-5">
+            <Link href="/register">
+                <button className="animate w-64 bg-emerald-400 hover:bg-emerald-500 hover:underline rounded-full py-2 px-10">Register</button>
+            </Link>
+        </div>
+    </>);
 }
