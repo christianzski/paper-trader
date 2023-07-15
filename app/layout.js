@@ -38,7 +38,7 @@ export default async function RootLayout({ children }) {
 
     let content;
 
-    if(user || (path == '/login' || path == '/register')) {
+    if(user && user.emailVerified) {
         content = (
                     <div className = "border-b">
                    <div className = "m-2 flex justify-between">
@@ -48,7 +48,7 @@ export default async function RootLayout({ children }) {
                         </div>
 
                         <div>
-                            <Header/>
+                            <Header user={user}/>
                         </div>
 
                         <div className = "flex mx-5">
