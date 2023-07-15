@@ -16,24 +16,29 @@ const roboto = Roboto({
     display: 'swap'
 });
 
-// Call authenticate.login w/ client cookies to verify user is logged in or not
-const loggedIn = true; //await authenticate.login(cookies.user, cookies.session);
-
-export default function RootLayout({ children }) {
+export default async function RootLayout({ children }) {
     const path = headers().get("x-invoke-path");
 
     const cookieStore = cookies();
-    
-    // Redirect to landing page if not logged in
-    if(!loggedIn && !(path == "/landing" || path == '/login' || path == '/register')) {
-        redirect("/");
-    } else {
-        // Allow the user to freely navigate pages.
+    const userId = cookieStore.get('user')?.value;
+    const session = cookieStore.get('session')?.value;
+    const username = cookieStore.get('username')?.value;
+
+    // Call authenticate.login w/ client cookies to verify user is logged in or not
+    const user = await authenticate.login(userId, session);
+
+    const loginPaths = (path == "/" || path == '/login' || path == '/register');
+
+    // Redirect to unrestricted pages if not logged in
+    if(!user && !loginPaths) redirect("/");
+    else if(user) {
+        if(loginPaths) redirect("/portfolio");
+        else if(!user.emailVerified && path != "/verification") redirect("/verification");
     }
 
     let content;
 
-    if(loggedIn || (path == '/login' || path == '/register')) {
+    if(user || (path == '/login' || path == '/register')) {
         content = (
                     <div className = "border-b">
                    <div className = "m-2 flex justify-between">
@@ -63,7 +68,7 @@ export default function RootLayout({ children }) {
                                 </div>
 
                                 <div className="pl-1 text-center">
-                                    <p className="font-bold text-sm">Username</p>
+                                    <p className="font-bold text-sm">{username}</p>
                                     <p className="text-xs">Online</p>
                                 </div>
                             </div>
@@ -88,7 +93,7 @@ export default function RootLayout({ children }) {
     return (
         <html lang="en" className={roboto.className}>
             <body>
-                <Redirect authenticated={loggedIn}/>
+                <Redirect authenticated={user ? true : false}/>
                 {content}
             </body>
         </html>

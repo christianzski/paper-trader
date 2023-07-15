@@ -12,6 +12,7 @@ const nextHandler = nextApp.getRequestHandler();
 const quote = require('./api/quote')
 const history = require('./api/history')
 const search = require('./api/search')
+const verification = require('./api/verification')
 const register = require('./api/Register');
 const login = require('./api/Login');
 const forgotPassword = require('./api/forgotPassword');
@@ -23,12 +24,15 @@ nextApp.prepare()
     const server = express();
 
     server.use(cookieParser());
+    server.use(express.json());
 
-    server.post('api/Register', register.api);
+    server.post('/api/Register', register.api);
 
-    server.post('api/Login', login.api);
+    server.post('/api/Login', login.api);
 
-    server.post('api/Register', forgotPassword.api);
+    server.post('/api/Register', forgotPassword.api);
+
+    server.post('/api/verification', verification.api);
 
     // Get a quote
     server.get('/quote/:symbol', quote.api);
