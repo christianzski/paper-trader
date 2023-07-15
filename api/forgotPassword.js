@@ -14,8 +14,7 @@ module.exports = {
 
         await db.connect(async (db) => {
 
-            const results = await 
-            db.collection('Users').find({email:email}).toArray();
+            const results = await db.collection('Users').find({email:email}).toArray();
 
             num = Math.floor(100000 + Math.random() * 900000);
 
@@ -23,7 +22,7 @@ module.exports = {
                 sendEmail.api(email, num, 'Password reset')
 
                 try{
-                db.collection('Users').updateOne(
+                await db.collection('Users').updateOne(
                     {
                         "email" : email
                     },

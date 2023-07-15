@@ -34,11 +34,11 @@ module.exports = {
         try {
             await db.connect(async (db) => {
 
-                const result = db.collection('Users').insertOne(newUser);
+                const result = await db.collection('Users').insertOne(newUser);
                 const cursor = await db.collection('Users').find({"email":email}).toArray();
                 const id = cursor[0].id;
                 
-                db.collection('Portfolio').insertOne({id:id});
+                await db.collection('Portfolio').insertOne({id:id});
                 status = "success";
                 
             });
@@ -50,5 +50,9 @@ module.exports = {
         var ret = { token: getToken, error: error, status: status };
 
         res.status(201).json(ret);
+
+        if(status === 'success') {
+            sendEmail.api(email, verifCode, "Your Verification Code");
+        }
     }
 }

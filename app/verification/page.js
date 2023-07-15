@@ -1,12 +1,33 @@
 'use client'
 import Link from 'next/link'
+import React, { useState } from "react";
 
 export default function Page() {
+    const [error, setError] = useState("");
+
     async function verify() {
-        const response = await fetch("/verification", {
+        let code = "";
+        for(let i = 1; i <= 6; ++i) {
+            code += document.getElementById("n" + i)?.value;
+        }
+
+        const response = await fetch("/api/verification", {
             method: 'POST',
             mode: 'cors',
-            body: JSON.stringify( {"token": "12345"})
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify( {"token": code})
+        }).then(async response => {
+            const data = await response.json();
+
+            if(data["status"] == 'Success') {
+                window.location.href = "/";
+            } else {
+                setError("Invalid token.");
+            }
+        }).catch(error => {
+            setError("A server error has occurred.");
         });
     }
 
@@ -35,12 +56,11 @@ export default function Page() {
                 <input className="bg-opacity-0 p-0 w-6 text-center inline" type="text" pattern="[0-9]" id="n4" onChange={validate} onKeyDown={validate} maxLength="1"/>
                 <input className="bg-opacity-0 p-0 w-6 text-center inline" type="text" pattern="[0-9]" id="n5" onChange={validate} onKeyDown={validate} maxLength="1"/>
                 <input className="bg-opacity-0 p-0 w-6 text-center inline" type="text" pattern="[0-9]" id="n6" onChange={validate} onKeyDown={validate} maxLength="1"/>
-                <input className="bg-opacity-0 p-0 w-6 text-center inline" type="text" pattern="[0-9]" id="n7" onChange={validate} onKeyDown={validate} maxLength="1"/>
             </div>
-
 
             <div className = "text-center m-5 mb-0 mt-10">
                 <button onClick={() => verify()} className="animate w-64 bg-emerald-400 hover:bg-emerald-500 hover:underline rounded-full py-2 px-10">Submit</button>
+                <p className = "text-red-500 text-center">{error}</p>
                 <p className="mt-5">Didn't receive an email? <Link className="text-emerald-400" href="/register">Click here</Link> to resend</p>
             </div>
         </div>

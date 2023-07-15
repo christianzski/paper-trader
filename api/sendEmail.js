@@ -25,13 +25,13 @@ module.exports = {
 
         await db.connect (async (db) => {
             try{
-                db.collection('Users').updateOne(
+                await db.collection('Users').updateOne(
                     {
                         "email" : email
                     },
                     {
                         $set:{
-                            verifcationCode:num
+                            verificationCode:num
                         }
                     }
                 )

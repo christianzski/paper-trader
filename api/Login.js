@@ -19,19 +19,22 @@ module.exports = {
     await db.connect(async (db) => {
     
         const results = await 
-        db.collection('Users').find({loginId:login,password:hash}).toArray();
+        await db.collection('Users').find({loginId:login,password:hash}).toArray();
         
         var id = -1;
         var fn = '';
         var ln = '';
+        var username = '';
         if( results.length > 0 )
         {
             id = results[0].id;
             fn = results[0].FirstName;
             ln = results[0].LastName;
+            username = results[0].loginId;
+
             status = 'Success';
             var getToken = uuidv4();
-            db.collection('Users').updateOne(
+            await db.collection('Users').updateOne(
                 {
                     "loginId" : login,
                     "password" : hash
@@ -43,6 +46,12 @@ module.exports = {
                 }
             );
         }
+
+        const expiry = 1000 * 3600 * 5; // By default, expire in 5 hours
+        res.cookie('user', id, { maxAge: expiry, httpOnly: true });
+        res.cookie('session', getToken, { maxAge: expiry, httpOnly: true });
+        res.cookie('username', username, { maxAge: expiry, httpOnly: true });
+
         var ret = { token:getToken, error:error, message:status, userid:id };
         res.status(200).json(ret);
     });

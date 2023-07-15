@@ -11,6 +11,9 @@ module.exports = {
         await client.connect();
 
         const db = client.db("COP4331");
+        
         await callback(db);
+
+        await client.close();
     }
 };
