@@ -16,6 +16,7 @@ const verification = require('./api/verification')
 const register = require('./api/Register');
 const login = require('./api/Login');
 const forgotPassword = require('./api/forgotPassword');
+const buy = require('./api/buy')
 
 const cookieParser = require('cookie-parser');
 
@@ -24,6 +25,7 @@ nextApp.prepare()
     const server = express();
 
     server.use(cookieParser());
+    
     server.use(express.json());
 
     server.post('/api/Register', register.api);
@@ -33,6 +35,8 @@ nextApp.prepare()
     server.post('/api/Register', forgotPassword.api);
 
     server.post('/api/verification', verification.api);
+
+    server.post('/api/buy', buy.api);
 
     // Get a quote
     server.get('/quote/:symbol', quote.api);
