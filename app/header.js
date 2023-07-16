@@ -2,58 +2,30 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
-export default function Header() {
-    const pathname = usePathname();
+export default function Header(user) {
+  const pathname = usePathname();
+  console.log(user);
 
-    return(
-    <div class="flex items-baseline mt-5 mb-6 pb-7">
-      <div class="space-x-10 flex text-sm">
-      <label>
-        {(pathname == '/portfolio' && 
-        <Link href = '/portfolio' className="text-lg w-20 h-9 font-bold text-green-500 group rounded-md p-3 ring-slate-200 no-underline">
-          Portfolio
-        </Link>) ||  
-        <Link href = '/portfolio' className="text-lg w-20 h-9 hover:font-bold hover:text-green-500 group rounded-md p-3 ring-slate-200 no-underline">
-          Portfolio
-        </Link>
-        }
-      </label>
-        <label>
-        { (pathname == '/inbox' && 
-          <Link href = '/inbox' className="text-lg w-20 h-9 font-bold text-green-500 group rounded-md p-3 ring-slate-200 no-underline">
-            Inbox
-          </Link>
-        ) || 
-        <Link href = '/inbox' className="text-lg w-20 h-9 hover:font-bold hover:text-green-500 group rounded-md p-3 ring-slate-200 no-underline">
-            Inbox
-          </Link>
-        }
-        </label>
+  const headerLink = (path, text) => {
+    const isActive = pathname === path;
+    const fontClass = isActive ? "font-bold" : "hover:font-bold";
+    const textClass = isActive ? "text-green-500" : "hover:text-green-300";
 
-        <label>
-        {(pathname == '/search' &&
-        <Link href = '/search' className="text-lg w-20 h-9 font-bold text-green-500 group rounded-md p-3 ring-slate-200 no-underline">
-            Search
-          </Link>
-        ) ||
-        <Link href = '/search' className="text-lg w-20 h-9 hover:font-bold hover:text-green-500 group rounded-md p-3 ring-slate-200 no-underline">
-            Search
-          </Link>
-        }
-        </label>
-        <label>
-        {(pathname == '/friends' &&
+    return (
+      <Link href={path} className={`text-lg w-20 h-9 ${fontClass} ${textClass} group rounded-md p-3 ring-slate-200 no-underline`}>
+        {text}
+      </Link>
+    );
+  };
 
-          <Link href = '/friends' className="text-lg w-20 h-9 font-bold text-green-500 group rounded-md p-3 ring-slate-200 no-underline">
-            Friends
-          </Link>
-        ) || 
-        <Link href = '/friends' className="text-lg w-20 h-9 hover:font-bold hover:text-green-500 group rounded-md p-3 ring-slate-200 no-underline">
-            Friends
-          </Link>
-        }
-        </label>
+  return (
+    <div className="flex items-baseline mt-5 mb-6 pb-7">
+      <div className="space-x-10 flex text-sm">
+        <label>{headerLink("/portfolio", "Portfolio")}</label>
+        <label>{headerLink("/inbox", "Inbox")}</label>
+        <label>{headerLink("/search", "Search")}</label>
+        <label>{headerLink("/friends", "Friends")}</label>
       </div>
     </div>
-    )
+  );
 }
