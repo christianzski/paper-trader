@@ -2,6 +2,7 @@ const { v4: uuidv4 } = require('uuid');
 const { createHash } = require('crypto');
 const sendEmail = require('./sendEmail');
 const db = require('../db');
+const verification = require('./verification')
 
 module.exports = {
     api: async function(req, res) {
@@ -34,25 +35,39 @@ module.exports = {
         try {
             await db.connect(async (db) => {
 
-                const result = await db.collection('Users').insertOne(newUser);
-                const cursor = await db.collection('Users').find({"email":email}).toArray();
-                const id = cursor[0].id;
+                if(await db.collection('Users').find({"email":email}).toArray().length != 0) {
+                    status = "Email is already in use."
+                }
+
+                else if(await db.collection('Users').find({"loginId":login}).toArray().length != 0) {
+                    status = 'Username has already been taken.'
+                }
+
+                else{
+
+                    const result = await db.collection('Users').insertOne(newUser);
+                    const cursor = await db.collection('Users').find({"email":email}).toArray();
+                    const id = cursor[0].id;
+                    
+                    await db.collection('Portfolio').insertOne({userId:id});
+                    status = "success";
                 
-                await db.collection('Portfolio').insertOne({id:id});
-                status = "success";
-                
+                }
+
             });
         }
         catch (e) {
             error = e.toString();
         }
 
+        if(status === 'success') {
+            sendEmail.api(email, verifCode, "Your Verification Code");
+            //if wanting to verify again do we want to update sendEmail with cookies or keep it the same?
+        }
+
         var ret = { token: getToken, error: error, status: status };
 
         res.status(201).json(ret);
 
-        if(status === 'success') {
-            sendEmail.api(email, verifCode, "Your Verification Code");
-        }
     }
 }

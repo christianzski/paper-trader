@@ -11,7 +11,6 @@ module.exports = {
     var error = '';
     var status = 'Failed';
     
-    
     const { login, password } = req.body;
 
     var hash = createHash('sha256').update(password).digest('hex');

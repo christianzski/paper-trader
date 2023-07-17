@@ -13,7 +13,7 @@ module.exports = {
                     {
                         $set:{
                             emailVerified: true,
-                            verificationCode: 0,
+                            verificationCode: Math.floor(100000 + Math.random() * 900000),
                         }
                     }
                 );
