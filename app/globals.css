@@ -5,7 +5,7 @@
 body {}
 
 a:hover {
-	@apply underline;
+	@apply no-underline;
 	text-decoration: none;
 }
 

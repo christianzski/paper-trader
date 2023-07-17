@@ -9,14 +9,18 @@ export default function Page() {
         <p className="text-md text-center">Stock Trading Made Easy</p>
 
         <div className = "text-center m-5 mt-16">
-            <Link href="/login">
-                <button className="animate w-64 bg-emerald-400 hover:bg-emerald-500 hover:underline rounded-full py-2 px-10">Login</button>
-            </Link>
+            
+                <button className="animate w-64 bg-emerald-400 hover:bg-emerald-500 hover:underline rounded-full py-2 px-10 hover:no-underline">
+                    <Link href="/login" className="no-underline">
+                        Login
+                    </Link>
+                </button>
+            
         </div>
 
         <div className = "text-center m-5">
             <Link href="/register">
-                <button className="animate w-64 bg-emerald-400 hover:bg-emerald-500 hover:underline rounded-full py-2 px-10">Register</button>
+                <button className="animate w-64 bg-emerald-400 hover:bg-emerald-500 hover:underline rounded-full py-2 px-10 hover:no-underline">Register</button>
             </Link>
         </div>
     </>);
