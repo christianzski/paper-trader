@@ -7,15 +7,15 @@
 - [Contributors](#Contributors)
 
 ## Description
-Our project is a paper trading application which allows for users to spend a arbitrary number of cash in exchange for trading and managing stocks. 
+Our project is a paper trading application which allows  users to spend an arbitrary amount of cash in exchange for trading and managing stocks. 
 
-This allows for users to be introduced to stock trading, and be able to connect with others.
+This allows users to be introduced to stock trading and be able to connect with others.
 
 ## How to Download
 First, make sure you have downloaded nodejs and npm. If not, run the following commands in a terminal:
 ```
-sudo apt-get install nodejs
-sudo apt-get install npm
+sudo install nodejs
+sudo install npm
 ```
 ### Clone the Repo
 Create a directory and then run the following command in the terminal to clone the repository:
@@ -40,7 +40,7 @@ node server.js
 ```
 
 ## Technologies
-We used a MERN stack, consisting of Mongo.db, Express.js, React / React Native, and Node.js. In addition to Express, we also used Next.js
+We used a MERN stack, consisting of Mongo.db, Express.js, React, and Node.js. In addition to Express, we also used Next.js
 - Mongo.db: Database
 - Express.js: API
 - React: Frontend
@@ -48,7 +48,7 @@ We used a MERN stack, consisting of Mongo.db, Express.js, React / React Native, 
 - Next.js: Allow for easier access to API and server
 
 In addition, we used the following external APIs:
-- Bazinga: Company Logos
+- Benzinga: Company Logos
 - SendGrid: Email verification
 - Yahoo Finance: Stock prices / information
 
