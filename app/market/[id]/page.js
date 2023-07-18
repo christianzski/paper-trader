@@ -1,5 +1,9 @@
 import { headers } from 'next/headers'
 import Chart from '../../components/chart.js'
+import Trade from '@/components/trade'
+import Overview from './overview'
+
+import getUser from '../../user.js'
 
 export default async function Page({params}) {
   let quote = 0;
@@ -41,21 +45,21 @@ export default async function Page({params}) {
           domain = [min - percent, max + percent];
         });
 
-        return (<div className="p-2">
-            <div className="flex items-center mb-1">
-              <h1 className="font-bold mx-2 text-lg">{params.id}:</h1>
-              <p>${quote}</p>
-            </div>
+  return (
+    <div className="grid p-5 w-full m-auto grid-flow-row-dense grid-cols-3">
+      <div className="max-w-5xl p-2 col-span-2">
+        <div className="flex items-center mb-1">
+          <h1 className="font-bold mx-2 text-xl uppercase">{params.id}:</h1>
+          <p>${quote}</p>
+        </div>
 
-            <div className="mt-10 ml-10">
-            <Chart data={chartData} domain={domain}/>
-            </div>
+        <Overview symbol={params.id}/>
 
-            <div className="flex items-center columns-4">
-              <p className = "font-bold text-lg mr-5">Price per share</p>
-              <p className = "font-bold text-sm">{quote}</p>
-            </div>
+        <div className="mt-10">
+          <Chart data={chartData} domain={domain}/>
+        </div>
+      </div>
 
-            <div className="h-0.5 w-full bg-slate-500 grid-4"></div>
-          </div>);
+      <Trade symbol={params.id} price={quote}/>
+    </div>);
 }

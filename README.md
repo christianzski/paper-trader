@@ -58,7 +58,7 @@ We also used the following libraries:
 ## Contributors
 [Joseph Torres](https://github.com/limbfao)<br>
 [Praween Pongpat](https://github.com/PraweenPongpat) <br>
-[Christian Buccili-Zaleski](https://github.com/christianzski) <br>
+[Christian Buccilli-Zaleski](https://github.com/christianzski) <br>
 [Gabriel Hanson](https://github.com/gxbe25) <br>
 [Marcus Loyd](https://github.com/mungbeany)
 

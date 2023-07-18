@@ -52,7 +52,7 @@ export default function Search() {
     } else {
         content = (
             <div className="text-slate-500 flex items-center mt-5">
-                <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]" role="status">
+                <div className="loading" role="status">
                 </div>
                 <p className="ml-5">Loading...</p>
             </div>

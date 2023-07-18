@@ -18,6 +18,10 @@ a:hover {
 	background-size: cover;
 }
 
+.loading {
+	@apply inline-block w-4 h-4 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]
+}
+
 input {
 	@apply block pl-0 p-3 pr-10 w-full text-sm text-gray-900 bg-gray-50 outline-none border-b-2 border-gray-300 focus:border-gray-500;
 }
