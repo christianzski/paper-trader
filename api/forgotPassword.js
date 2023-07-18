@@ -7,9 +7,9 @@ module.exports = {
         //incoming: email
         //output: email to the user with a verification code
 
-        const { email, password, verifCode } = req.body;
+        const { email, password } = req.body;
 
-        var error = ' ';
+        var error = '';
         var status = "Could not find user with email";
 
         await db.connect(async (db) => {
