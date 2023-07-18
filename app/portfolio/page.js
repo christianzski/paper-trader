@@ -1,12 +1,10 @@
 
 import Link from 'next/link'
 import Chart from '../components/chart'
-import getUser from '../user'
 
 import { useSearchParams } from 'next/navigation'
 
 export default function Page() {
-    const user = getUser();
 
     return (
         <main className="flex flex-col items-center">

@@ -3,8 +3,6 @@ import Chart from '../../components/chart.js'
 import Trade from '@/components/trade'
 import Overview from './overview'
 
-import getUser from '../../user.js'
-
 export default async function Page({params}) {
   let quote = 0;
   let list = headers();
@@ -33,12 +31,15 @@ export default async function Page({params}) {
               else value = data.priceHistory[i + 1];
             } else value = data.priceHistory[i];
 
-            value = value.toFixed(2);
+            if(value != null){
+              value = value.toFixed(2);
 
-            if(value < min) min = value;
-            if(value > max) max = value;
+              if(value < min) min = value;
+              if(value > max) max = value;
 
-            chartData.push({pv: i, Price: value});
+              
+              chartData.push({pv: i, Price: value});
+            }
           }
 
           const percent = (max - min) * 0.05;
