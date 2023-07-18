@@ -63,31 +63,21 @@ module.exports = {
                     }
                     await db.collection('Orders').insertOne(newOrder);
                     //make stock
-                    const portResult = await db.collection('Stock').find({"portId":user}).toArray();
+                    const portResult = await db.collection('Stock').find({"portId":user, "companyName":symbol}).toArray();
                     //never bought this stock before
-                    let passFlag = false;
-                    let avgPrice = latestPrice*share;
-                    let numShareTotal = share;
-
-                    for(var i=0; i<portResult.length; i++){
-                        if(portResult[i].companyName == symbol){
-                            //set flag if found the symbol's stock, compute avg.Price
-                            passFlag = true;
-                            numShareTotal += portResult[i].amountShareOwned;
-                            avgPrice += (portResult[i].amountShareOwned * portResult[i].purchasedPrice);
-                            avgPrice /=numShareTotal;
-                        }
-                    }
-
-                    if(portResult.length ==0 || passFlag == false){
-                        //make new stock to this portfolio, make new, id in this has trigger_auto_increment in mongoDB
+                    if(portResult == undefined || portResult.length ==0){
                         const newStock = {
-                            portId:user, companyName:symbol, amountShareOwned:numShareTotal, purchasedPrice:avgPrice
+                            portId:user, companyName:symbol, amountShareOwned:share, purchasedPrice:latestPrice
                         }
                         await db.collection('Stock').insertOne(newStock);
                     } else {
-                        //bought this stock before, update
-                        await db.collection('Stock').updateOne({"companyName":symbol},{
+                        //bought this stock before, update amountShareOwned, update avgPrice
+                        let stockPK = portResult[0].id;
+                        let numShareTotal = portResult[0].amountShareOwned + share;
+                        let avgPrice = portResult[0].amountShareOwned * portResult[0].purchasedPrice;
+                        avgPrice += (share*latestPrice);
+                        avgPrice /= numShareTotal;
+                        await db.collection('Stock').updateOne({"id":stockPK},{
                             $set: {
                             "amountShareOwned": numShareTotal,
                             "purchasedPrice": avgPrice
