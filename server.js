@@ -23,6 +23,8 @@ const getOrders = require('./api/getOrders');
 const buy = require('./api/buy')
 const sell = require('./api/sell')
 
+const sendFriend = require('./api/sendFriendRQ');
+
 const cookieParser = require('cookie-parser');
 
 nextApp.prepare()
@@ -46,6 +48,8 @@ nextApp.prepare()
     server.post('/api/buy', buy.api);
 
     server.post('/api/sell', sell.api);
+
+    server.post('/api/sendFriendRQ', sendFriend.api);
     
     server.get('/api/get-shares', getShares.api);
 
