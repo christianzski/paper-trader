@@ -49,7 +49,7 @@ module.exports = {
                     const id = cursor[0].id;
                     
                     await db.collection('Portfolio').insertOne({userId:id});
-                    await db.collection('Friends').insertOne({userId: id});
+                    await db.collection('Friends').insertOne({inComingReq:[], outGoingReq:[], friendList:[], userId: id});
                     status = "success";
                 
                 }

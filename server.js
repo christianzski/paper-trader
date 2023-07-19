@@ -24,6 +24,7 @@ const buy = require('./api/buy')
 const sell = require('./api/sell')
 
 const sendFriend = require('./api/sendFriendRQ');
+const respondFriend = require('./api/respondFriendRQ');
 
 const cookieParser = require('cookie-parser');
 
@@ -50,6 +51,8 @@ nextApp.prepare()
     server.post('/api/sell', sell.api);
 
     server.post('/api/sendFriendRQ', sendFriend.api);
+
+    server.post('/api/respondFriendRQ', respondFriend.api);
     
     server.get('/api/get-shares', getShares.api);
 
