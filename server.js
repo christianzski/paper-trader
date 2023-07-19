@@ -47,9 +47,9 @@ nextApp.prepare()
 
     server.post('/api/sell', sell.api);
     
-    server.get('/api/get-shares/:symbol', getShares.api);
+    server.get('/api/get-shares', getShares.api);
 
-    server.get('/api/get-orders/:symbol', getOrders.api);
+    server.get('/api/get-orders', getOrders.api);
 
     // Get a quote
     server.get('/quote/:symbol', quote.api);

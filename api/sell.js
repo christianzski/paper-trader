@@ -1,11 +1,4 @@
-async function get_quote(symbol) {
-    const response = await fetch('https://query1.finance.yahoo.com/v8/finance/chart/'
-    + symbol
-    + '?region=US&lang=en-US&includePrePost=false&interval=2m&useYfid=true&range=1d&corsDomain=finance.yahoo.com&.tsrc=finance');
-  
-    return await response.json();
-}
-
+const quote = require('./quote')
 const authenticate = require('../authenticate')
 const db = require('../db');
 
@@ -21,20 +14,23 @@ module.exports = {
         let { symbol, cost } = req.body;
         let price = '';
         let latestPrice = '';
-        user = user*1;
-        
-        await get_quote(symbol).then(result => {
-            price = result['chart']['result']['0']['meta']['regularMarketPrice'];
 
+        user = parseInt(user);
+        
+        if(isNaN(cost) || !symbol) {
+            res.sendStatus(400);
+            res.send(JSON.stringify({error: "invalid parameters"}));
+        }
+
+        await quote.get_quote(symbol).then(result => {
             res.setHeader('Content-Type', 'application/json');
-            if(price.length == 0) {
-                console.log("symbol not found")
-                res.send(JSON.stringify({error: "Symbol not found"}));
+
+            if(result.error) {
+                res.send(JSON.stringify(result));
             } else {
-                latestPrice = price;
+                latestPrice = result.latestPrice;
             }
         }).catch(err => {
-            console.log("get quote error")
             res.sendStatus(501);
         });
 
@@ -62,9 +58,8 @@ module.exports = {
 
                 if(numStockWishToSell > numShare || index == -1){
                     //try to sell too much
-                    console.log("insuffeicient stock to sell")
                     res.setHeader('Content-Type', 'application/json');
-                    res.send("insuffeicient stock to sell");
+                    res.send({error: "insufficient stock to sell"});
                 } else {
                     //start selling--------------
                     //update more money in user's wallet
@@ -85,9 +80,9 @@ module.exports = {
                     //detect 0 as a range, since it's a double
                     if(remainingShare >= 0 && remainingShare <0.0001){
                         await db.collection('Stock').deleteOne({"id":stockPK});
-                        res.setHeader('Content-Type', 'application/json');
-                        res.send("success with "+remainingShare+" shares from "+symbol+" --deleted from stockTable");
 
+                        res.setHeader('Content-Type', 'application/json');
+                        res.send(JSON.stringify({"success": true, "shares": 0, "price": latestPrice}));
                     } else {
                     //left over share, just update number of remainingShare
                         await db.collection('Stock').updateOne({"id":stockPK},{
@@ -96,12 +91,12 @@ module.exports = {
                         }});
 
                         res.setHeader('Content-Type', 'application/json');
-                        res.send("success with "+remainingShare+" shares from "+symbol);
+                        res.send(JSON.stringify({"success": true, "shares": remainingShare, "price": latestPrice}));
                     }
                 }
             } else {
                 res.setHeader('Content-Type', 'application/json');
-                res.send("user id not auth")
+                res.send(JSON.stringify({error:"user id not auth"}));
             }
         })
     }

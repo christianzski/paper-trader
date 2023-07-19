@@ -1,11 +1,11 @@
 
 import Link from 'next/link'
-import Chart from '../components/chart'
+import Chart from '@/components/chart'
+import Portfolio from '@/components/portfolio';
 
 import { useSearchParams } from 'next/navigation'
 
 export default function Page() {
-
     return (
         <main className="flex flex-col items-center">
             <div className="grid p-5 w-full grid-flow-row-dense grid-cols-3 grid-rows-1">
@@ -39,6 +39,7 @@ export default function Page() {
                 </div>
                 <div className="text-center">
                     Stock Portfolio
+                    <Portfolio/>
                 </div>
             </div>
         </main>

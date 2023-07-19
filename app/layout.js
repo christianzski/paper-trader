@@ -10,6 +10,8 @@ import Redirect from './components/redirect.js'
 
 import authenticate from '../authenticate';
 
+import React from "react";
+
 const roboto = Roboto({
     weight: ['300', '400', '500'],
     subsets: ['latin'],
@@ -25,9 +27,6 @@ export default async function RootLayout({ children }) {
     const username = cookieStore.get('username')?.value;
   
     const user = await authenticate.login(userId, session);
-    
-
-    // console.log(user);
 
     const loginPaths = ["/", "/login", "/register"];
   

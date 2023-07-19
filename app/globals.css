@@ -45,3 +45,11 @@ input:focus {
 .no-underline {
 	text-decoration: none;
 }
+
+.arrow-up {
+	width: 0; height: 0;
+	border: 24px solid transparent;
+	border-top: 0;
+
+	border-bottom: 12px solid green;
+}

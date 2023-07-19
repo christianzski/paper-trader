@@ -38,7 +38,7 @@ module.exports = {
             const results = await authenticate.login(user, session);
 
             if(results != undefined) {
-                if(cost > results.wallet) {
+                if(isNaN(results.wallet) || cost > results.wallet) {
                     //too little fund to buy
                     res.setHeader('Content-Type', 'application/json');
                     res.send({error: "not enough buying power"});
