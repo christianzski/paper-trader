@@ -1,6 +1,13 @@
+import Search from './search.js';
+
 export default function Page() {
 
-    return (<div>Friends Page!</div>);
+    return (
+        <div>
+            <Search />
+        </div>
+        
+    );
 
 
 }
