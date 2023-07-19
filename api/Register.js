@@ -24,12 +24,11 @@ module.exports = {
         var hashAns2 = createHash('sha256').update(answer2).digest('hex');
         var hashAns3 = createHash('sha256').update(answer3).digest('hex');
 
-        var verifCode = Math.floor(100000 + Math.random() * 900000);
 
         const newUser = {
             firstName: firstName, lastName: lastName, loginId: login, password: hashPass, email: email, phone: phone,
             wallet: 10000.00, question1: question1, answer1: hashAns1, question2: question2, answer2: hashAns2, question3: question3,
-            answer3: hashAns3, friendsId: [], emailVerified: false, verificationCode: verifCode, sessionToken: getToken
+            answer3: hashAns3, friendsId: [], emailVerified: false, verificationCode: 0, sessionToken: getToken
         };
 
         try {
@@ -50,6 +49,7 @@ module.exports = {
                     const id = cursor[0].id;
                     
                     await db.collection('Portfolio').insertOne({userId:id});
+                    await db.collection('Friends').insertOne({userId: id});
                     status = "success";
                 
                 }
@@ -61,12 +61,16 @@ module.exports = {
         }
 
         if(status === 'success') {
-            sendEmail.api(email, verifCode, "Your Verification Code");
+            sendEmail.api(email, "Your Verification Code");
             //if wanting to verify again do we want to update sendEmail with cookies or keep it the same?
         }
 
-        var ret = { token: getToken, error: error, status: status };
+        const expiry = 1000 * 3600 * 5; // By default, expire in 5 hours
+        res.cookie('user', id, { maxAge: expiry, httpOnly: true });
+        res.cookie('session', getToken, { maxAge: expiry, httpOnly: true });
+        res.cookie('username', username, { maxAge: expiry, httpOnly: true });
 
+        var ret = { token: getToken, error: error, status: status };
         res.status(201).json(ret);
 
     }
