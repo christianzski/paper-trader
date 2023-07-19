@@ -1,12 +1,15 @@
 
 import Link from 'next/link'
-import Chart from '../components/chart'
+import Chart from '@/components/chart'
+import Portfolio from '@/components/portfolio';
+
+import { useSearchParams } from 'next/navigation'
 
 export default function Page() {
     return (
         <main className="flex flex-col items-center">
             <div className="grid p-5 w-full grid-flow-row-dense grid-cols-3 grid-rows-1">
-                <div className="col-span-2">
+                <div className  ="col-span-2">
                     <div className="flex justify-between items-center mb-1">
                         <div>
                             <div className="inline-block bg-purple-300 px-3 mr-1 rounded-full font-bold">1 Month</div>
@@ -20,7 +23,7 @@ export default function Page() {
                         <div>
                             <p className="font-bold">Portfolio Balance</p>
                             <div className="bg-teal-300 rounded-full w-full text-center">
-                                $ 7050
+                                $ {10000}
                             </div>
                         </div>
                     </div>
@@ -36,6 +39,7 @@ export default function Page() {
                 </div>
                 <div className="text-center">
                     Stock Portfolio
+                    <Portfolio/>
                 </div>
             </div>
         </main>

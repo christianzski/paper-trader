@@ -12,11 +12,16 @@ const nextHandler = nextApp.getRequestHandler();
 const quote = require('./api/quote')
 const history = require('./api/history')
 const search = require('./api/search')
+
 const verification = require('./api/verification')
 const register = require('./api/Register');
 const login = require('./api/Login');
 const forgotPassword = require('./api/forgotPassword');
+
+const getShares = require('./api/getShares');
+const getOrders = require('./api/getOrders');
 const buy = require('./api/buy')
+const sell = require('./api/sell')
 
 const cookieParser = require('cookie-parser');
 
@@ -28,6 +33,8 @@ nextApp.prepare()
     
     server.use(express.json());
 
+    server.post('/api/get-shares', register.api);
+
     server.post('/api/Register', register.api);
 
     server.post('/api/Login', login.api);
@@ -37,6 +44,12 @@ nextApp.prepare()
     server.post('/api/verification', verification.api);
 
     server.post('/api/buy', buy.api);
+
+    server.post('/api/sell', sell.api);
+    
+    server.get('/api/get-shares', getShares.api);
+
+    server.get('/api/get-orders', getOrders.api);
 
     // Get a quote
     server.get('/quote/:symbol', quote.api);
@@ -58,5 +71,7 @@ nextApp.prepare()
       if(process.env.NODE_ENV !== 'production') {
         console.log(`Listening on http://localhost:${port}`);
       }
+
+      setInterval(function() { }, 5 * (1000 * 60));
     });
   });

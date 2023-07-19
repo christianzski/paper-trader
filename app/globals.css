@@ -5,7 +5,7 @@
 body {}
 
 a:hover {
-	@apply underline;
+	@apply no-underline;
 	text-decoration: none;
 }
 
@@ -16,6 +16,10 @@ a:hover {
 .landing {
 	background-image: url('/landing.jpg');
 	background-size: cover;
+}
+
+.loading {
+	@apply inline-block w-4 h-4 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]
 }
 
 input {
@@ -40,4 +44,12 @@ input:focus {
 
 .no-underline {
 	text-decoration: none;
+}
+
+.arrow-up {
+	width: 0; height: 0;
+	border: 24px solid transparent;
+	border-top: 0;
+
+	border-bottom: 12px solid green;
 }
