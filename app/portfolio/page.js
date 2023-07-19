@@ -1,6 +1,7 @@
 
 import Link from 'next/link'
 import Chart from '@/components/chart'
+import Favorited from '@/components/favorited'
 import Portfolio from '@/components/portfolio';
 
 import { useSearchParams } from 'next/navigation'
@@ -34,7 +35,8 @@ export default function Page() {
                     </div>
 
                     <div className="mt-5">
-                        <h3 className="font-bold font-lg">Favorited</h3>
+                        <h3 className="font-bold font-xl">Watchlist</h3>
+                        <Favorited/>
                     </div>
                 </div>
                 <div className="text-center">

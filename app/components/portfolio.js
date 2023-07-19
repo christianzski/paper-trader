@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link'
 import { useEffect, useState } from "react";
 
 export default function Portfolio({symbol, price}) {
@@ -35,8 +36,8 @@ export default function Portfolio({symbol, price}) {
     <div className="max-w-lg m-auto">
             {stocks.map((stock) => {
                     return (
-                    <>
-                    <div className="flex max-w-3xl items-center m-1 justify-between">
+                    <Link href={`/market/${stock.symbol}`}>
+                    <div className="flex max-w-3xl items-center m-1 justify-between hover:bg-slate-200">
                         <div className = "flex items-center">
                             <div className = "rounded-full p-5 text-gray-200 bg-gray-900 mx-1">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
@@ -64,7 +65,7 @@ export default function Portfolio({symbol, price}) {
                             <p className = "font-bold text-lg">{stock.percentage}%</p>
                         </div>}
                     </div>
-                    </>);
+                    </Link>);
                 })}
 
     </div>);

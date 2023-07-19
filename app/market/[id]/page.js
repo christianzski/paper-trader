@@ -49,12 +49,7 @@ export default async function Page({params}) {
   return (
     <div className="md:grid block p-5 w-full m-auto grid-flow-row-dense grid-cols-3">
       <div className="max-w-5xl p-2 col-span-2">
-        <div className="flex items-center mb-1">
-          <h1 className="font-bold mx-2 text-xl uppercase">{params.id.toString().toUpperCase()}:</h1>
-          <p>${quote}</p>
-        </div>
-
-        <Overview symbol={params.id.toString().toUpperCase()}/>
+        <Overview symbol={params.id.toString().toUpperCase()} quote={quote}/>
 
         <div className="mt-10">
           <Chart data={chartData} domain={domain}/>

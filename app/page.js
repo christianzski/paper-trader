@@ -10,11 +10,11 @@ export default function Page() {
 
         <div className = "text-center m-5 mt-16">
             
-                <button className="animate w-64 bg-emerald-400 hover:bg-emerald-500 hover:underline rounded-full py-2 px-10 hover:no-underline">
-                    <Link href="/login" className="no-underline">
+                <Link href="/login" className="no-underline">
+                    <button className="animate w-64 bg-emerald-400 hover:bg-emerald-500 hover:underline rounded-full py-2 px-10 hover:no-underline">
                         Login
-                    </Link>
-                </button>
+                    </button>
+                </Link>
             
         </div>
 

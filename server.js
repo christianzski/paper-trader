@@ -18,6 +18,8 @@ const register = require('./api/Register');
 const login = require('./api/Login');
 const forgotPassword = require('./api/forgotPassword');
 
+const favorite = require('./api/favorite');
+
 const getShares = require('./api/getShares');
 const getOrders = require('./api/getOrders');
 const buy = require('./api/buy')
@@ -36,8 +38,7 @@ nextApp.prepare()
     
     server.use(express.json());
 
-    server.post('/api/get-shares', register.api);
-
+    /* User Authentication */
     server.post('/api/Register', register.api);
 
     server.post('/api/Login', login.api);
@@ -46,18 +47,26 @@ nextApp.prepare()
 
     server.post('/api/verification', verification.api);
 
-    server.post('/api/buy', buy.api);
-
-    server.post('/api/sell', sell.api);
-
+    /* User Friends */
     server.post('/api/sendFriendRQ', sendFriend.api);
 
     server.post('/api/respondFriendRQ', respondFriend.api);
+
+    /* User Favorites */
+    server.post('/api/favorite', favorite.toggle);
+
+    server.get('/api/favorites', favorite.get);
+
+    /* User Investments */
+    server.post('/api/buy', buy.api);
+
+    server.post('/api/sell', sell.api);
     
     server.get('/api/get-shares', getShares.api);
 
     server.get('/api/get-orders', getOrders.api);
 
+    /* Stock information */
     // Get a quote
     server.get('/quote/:symbol', quote.api);
 
