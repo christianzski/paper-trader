@@ -23,8 +23,8 @@ module.exports = {
                 //in order to respond, it must be within the incoming Request
                 if(respondUserFriend.inComingReq.find(element => element != addUser.loginId)){
                     //not in inComingReq
-                    console.log("user #"+addUser.loginId+", didn't add you");
-                    //res.send something back*****
+                    res.setHeader('Content-Type', 'application/json');
+                    res.send(JSON.stringify("user wasn't being added from that userName"));
                 } else{
                     //being added, start to respond this
 
@@ -51,7 +51,6 @@ module.exports = {
                             {$push: {"friendList": respondUser.loginId}}
                         )
                     } 
-                    //res.send something back**********
                     res.setHeader('Content-Type', 'application/json');
                     res.send(JSON.stringify("successfully responded"));
                 }
