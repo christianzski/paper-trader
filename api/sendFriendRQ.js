@@ -16,10 +16,11 @@ module.exports = {
                 const addUser = await db.collection('Users').findOne({loginId: userAdding});
                 const curUserFriends = await db.collection('Friends').findOne({userId: curUser.id});
 
-                if(curUserFriends.inComingReq.find(element => element == addUser.id) || curUserFriends.outGoingReq.find(element => element == addUser.id)) {
+                if(curUserFriends.inComingReq.find(element => element == addUser.loginId) || curUserFriends.outGoingReq.find(element => element == addUser.loginId)) {
                     error = "User already has incoming/outgoing request";
                 }
-                else if(curUserFriends.friendList.find(element => element == addUser.id)) {
+                else if(curUserFriends.friendList.find(element => element == addUser.loginId)
+                ) {
                     error = 'User is already added';
                 }
                 else {
@@ -27,13 +28,13 @@ module.exports = {
                         {
                             userId:curUser.id
                         },
-                        { $push: {outGoingReq: addUser.id} }
+                        { $push: {outGoingReq: addUser.loginId} }
                     )
                     await db.collection('Friends').updateOne(
                         {
                             userId:addUser.id
                         },
-                        { $push: {inComingReq: curUser.id} }
+                        { $push: {inComingReq: curUser.loginId} }
                     )
                     status = "A friend request has been sent to the user";
                 }
