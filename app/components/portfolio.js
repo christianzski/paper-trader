@@ -52,12 +52,16 @@ export default function Portfolio({symbol, price}) {
                         {stock.percentage > 0 &&
 
                         <div className = "flex items-center text-green-400">
-                            <img src="ADOBESTOCKBULLBEAR_02.png" width={50} height={50}></img>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" class="w-6 h-6">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 15.75l7.5-7.5 7.5 7.5" />
+                            </svg>
                             <p className = "font-bold text-lg">{stock.percentage}%</p>
                         </div>
                         ||
                         <div className = "flex items-center text-red-400">
-                            <img src="ADOBESTOCKBULLBEAR_01.png" width={50} height={50}></img>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                            </svg>
                             <p className = "font-bold text-lg">{stock.percentage}%</p>
                         </div>}
                     </div>

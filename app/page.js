@@ -1,5 +1,8 @@
 import Link from 'next/link';
-import Section from './animations.js'
+import LeftBear from './leftBear'
+import RightBear from './rightBear'
+import SecondPage from './secondPage.js'
+
 
 export default function Page() {
     return (<>
@@ -7,20 +10,16 @@ export default function Page() {
         <div className="flex justify-center py-4" >
             <img src="21TradingMain.png" width={400} height={50}></img>
         </div>
-        <div className ="animation text-center">
+        <div className ="interBold text-center">
             A paper trading platform
         </div>
-            
-        <Section>Animate</Section>
-        
-
-        <div className = "text-center m-5 mt-16">
-            
-                
+        <div className = "flex flex-row">
+            <LeftBear></LeftBear>
+            <RightBear></RightBear>
         </div>
 
-        <div className = "text-center m-5">
+        <SecondPage></SecondPage>
             
-        </div>
+    
     </>);
 }

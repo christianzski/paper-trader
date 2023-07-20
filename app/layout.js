@@ -52,12 +52,12 @@ export default async function RootLayout({ children }) {
   
     const renderUnauthenticatedContent = () => (
       <div className="landing h-screen">
-        <div className="flex flex-row justify-between bg-slate-50/50">
+        <div className="flex flex-row justify-between border">
           <div className="flex items-center py-5">
             <div className="mx-5">
-              <a href="/" className="text-2xl animation"> Home </a>
+              <a href="/" className="text-2xl interBold"> Home </a>
             </div>
-            <a href="/about" className="text-2xl animation"> About </a>
+            <Link href="/about" className="text-2xl interBold"> About </Link>
         </div>
           <div className ="flex-row justify-end py-5">
               <Link href="/login" className="no-underline mx-3 loginlogout">
@@ -70,7 +70,7 @@ export default async function RootLayout({ children }) {
             </Link>
           </div>
           
-            
+
         </div>
         {children}
       </div>

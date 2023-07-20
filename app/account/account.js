@@ -6,7 +6,7 @@ import React, { useState } from "react";
 export default function Account( {user}) {
     const router = useRouter();
     const [error, setError] = useState("");
-
+    
     async function logout() {
         await fetch("/api/logout", {
             method: 'POST',

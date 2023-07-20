@@ -14,7 +14,7 @@ a:hover {
 }
 
 .landing {
-	background-image: url('/landing.jpg');
+	background-image: url('/backgroundStock.png');
 	background-size: cover;
 }
 
@@ -77,12 +77,25 @@ body {
 section {
   box-sizing: border-box;
   width: 100%;
-  height: 50vh;
+  height: 101vh;
   display: flex;
   justify-content: flex-start;
   overflow: hidden;
-  padding: 50px;
+  padding: 40px;
 }
+
+section:nth-child(2) {
+	background: #48a5be;
+  }
+  
+  section:nth-child(3) {
+	background: #0077ff;
+	
+  }
+  
+  section:nth-child(4) {
+	background: #bd19c8;
+  }
 
 section span {
   display: block;
@@ -90,13 +103,30 @@ section span {
   opacity: 0;
 }
 
-.animation {
+.secondPage {
+	font-weight: 700;
+	font-family: "Inter-Bold", "Inter", sans-serif;
+	color: rgba(0, 0, 0, 0.9);
+	font-size: 64px;
+	letter-spacing: -4px;
+  }
+  
+
+.interBold {
   font-weight: 700;
   font-family: "Inter-Bold", "Inter", sans-serif;
   color: rgba(0, 0, 0, 0.9);
   font-size: 20px;
   letter-spacing: -1px;
 }
+
+.slightlyBigger {
+	font-weight: 700;
+	font-family: "Inter-Bold", "Inter", sans-serif;
+	color: rgba(0, 0, 0, 0.9);
+	font-size: 40px;
+	letter-spacing: -1px;
+  }
 
 .loginlogout {
 	font-weight: 700;
