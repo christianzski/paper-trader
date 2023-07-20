@@ -17,6 +17,7 @@ const verification = require('./api/verification')
 const register = require('./api/Register');
 const login = require('./api/Login');
 const forgotPassword = require('./api/forgotPassword');
+const logout = require('./api/logout');
 
 const favorite = require('./api/favorite');
 
@@ -42,6 +43,8 @@ nextApp.prepare()
     server.post('/api/Register', register.api);
 
     server.post('/api/Login', login.api);
+
+    server.post('/api/logout', logout.api);
 
     server.post('/api/Register', forgotPassword.api);
 
