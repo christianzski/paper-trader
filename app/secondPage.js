@@ -8,8 +8,8 @@ function Second({ children }) {
     const isInView = useInView(ref, { once: true });
   
     return (<main>
-      <section ref={ref}>
-      <img className = "justify-self-end" src="redBullLinesGood.png" width={350} height={800}></img>
+      <section  className = "flex justify-between" ref={ref}>
+      <img className = "justify-self-start" src="redBullLinesGood.png" width={350} height={800}></img>
         <span
           style={{
             transform: isInView ? "none" : "translateX(-250px)",
@@ -43,7 +43,7 @@ function Second({ children }) {
         >
           {children}
         </span>
-        <img src="moneygoingtobullfrombear.png" height={500} width={1210} ></img>
+        {/* <img src="moneygoingtobullfrombear.png" height={200} width={1210} ></img> */}
       </section>
     );
   };
@@ -55,9 +55,9 @@ function FirstParagraph() {
             <ol>
                 <li>Execute real time market trades with ease.</li>
                 <li>Track your progress.</li>
+                <li>Fractional Shares.</li>
                 <li>Add your friends.</li>
                 <li>Read the news.</li>
-                
             </ol>
         </div>
     )

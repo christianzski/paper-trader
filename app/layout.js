@@ -55,7 +55,7 @@ export default async function RootLayout({ children }) {
         <div className="flex flex-row justify-between border">
           <div className="flex items-center py-5">
             <div className="mx-5">
-              <a href="/" className="text-2xl interBold"> Home </a>
+              <Link href="/" className="text-2xl interBold"> Home </Link>
             </div>
             <Link href="/about" className="text-2xl interBold"> About </Link>
         </div>

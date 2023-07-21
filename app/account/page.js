@@ -18,8 +18,8 @@ export default async function Page() {
     
 
     return(
-        <main className = "center">
-            <p>Account</p>
+        <main className = "text-center py-4">
+            <p className = "interBold">Account</p>
             <p> {<Account user={user}/>}</p>
         </main>
     );

@@ -7,7 +7,7 @@ export default function Page() {
                 Meet the Team
             </div>
 
-            <div className ="interBold flex justify-center py-2">
+            <div className ="interBold flex justify-center py-1 text-center">
                 <ol>
                     <li>Joseph Torres</li>
                     <li>Praween Pongpat</li>
