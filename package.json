@@ -29,6 +29,7 @@
     "uuid": "^9.0.0"
   },
   "devDependencies": {
+    "@react-spring/web": "^9.7.3",
     "@svgr/cli": "^8.0.1"
   }
 }

@@ -37,7 +37,7 @@ export default function Portfolio({symbol, price}) {
             {stocks.map((stock) => {
                     return (
                     <Link href={`/market/${stock.symbol}`}>
-                    <div className="flex max-w-3xl items-center m-1 justify-between hover:bg-slate-200">
+                    <div className="flex max-w-3xl items-center m-1 justify-between hover:bg-slate-200 dark:hover:bg-slate-400">
                         <div className = "flex items-center">
                             <div className = "rounded-full p-5 text-gray-200 bg-gray-900 mx-1">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
