@@ -17,7 +17,7 @@ module.exports = {
 
 
 
-        const { firstName, lastName, login, password, email, phone, question1, answer1, question2, answer2, question3, answer3 } = req.body;
+        const { firstName, lastName, login, password, email, phone, question1, answer1, question2, answer2, question3, answer3, photo } = req.body;
 
         var hashPass = createHash('sha256').update(password).digest('hex');
         var hashAns1 = createHash('sha256').update(answer1).digest('hex');
@@ -28,7 +28,7 @@ module.exports = {
         const newUser = {
             firstName: firstName, lastName: lastName, loginId: login, password: hashPass, email: email, phone: phone,
             wallet: 10000.00, question1: question1, answer1: hashAns1, question2: question2, answer2: hashAns2, question3: question3,
-            answer3: hashAns3, friendsId: [], emailVerified: false, verificationCode: 0, sessionToken: getToken
+            answer3: hashAns3, emailVerified: false, verificationCode: 0, sessionToken: getToken, photo: 0
         };
 
         try {
@@ -48,7 +48,7 @@ module.exports = {
                     const cursor = await db.collection('Users').find({"email":email}).toArray();
                     const id = cursor[0].id;
                     
-                    await db.collection('Portfolio').insertOne({userId:id});
+                    await db.collection('Portfolio').insertOne({userId:id, portHistoryValueDay:[], portHistoryValueMonth:[]});
                     await db.collection('Friends').insertOne({inComingReq:[], outGoingReq:[], friendList:[], userId: id});
                     status = "success";
                 
