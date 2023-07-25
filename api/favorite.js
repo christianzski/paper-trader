@@ -1,6 +1,8 @@
 const authenticate = require('../authenticate')
 const db = require('../db');
 
+const friendList = require('./friendList')
+
 module.exports = {
     toggle: async function(req, res) {
         const user = await authenticate.login(req.cookies.user, req.cookies.session);
@@ -44,12 +46,25 @@ module.exports = {
         const user = await authenticate.login(req.cookies.user, req.cookies.session);
 
         if(user) {
+            let id = user.id;
+
             await db.connect(async (db) => {
-                let watchlist = await db.collection('Watchlist').findOne({userId: user.id});
+                if(req.query.user) {
+                    const friend = await friendList.getFriend(db, id, req.query.user);
+                    if(friend) id = friend.id;
+                    else {
+                        res.setHeader('Content-Type', 'application/json');
+                        res.send(JSON.stringify({error: "unauthorized"}));
+
+                        return;
+                    }
+                }
+
+                let watchlist = await db.collection('Watchlist').findOne({userId: id});
 
                 res.setHeader('Content-Type', 'application/json');
                 res.send(JSON.stringify({favorites: watchlist?.favorites || []}));
             });
         };
     }
-};
+}

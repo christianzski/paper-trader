@@ -13,7 +13,7 @@ export default function Page() {
         <div className ="interBold text-center">
             A paper trading platform
         </div>
-        <div className = "flex flex-row">
+        <div className = "flex flex-row justify-center">
             <LeftBear></LeftBear>
             <RightBear></RightBear>
         </div>

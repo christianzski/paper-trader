@@ -24,6 +24,8 @@ export default async function Page({params}) {
           let min = Math.max;
           let max = 0;
 
+          let localeOptions = { hour12: true, hour: 'numeric' };
+
           for(var i in data.priceHistory) {
             let value;
             if(data.priceHistory[i] == null) {
@@ -38,7 +40,11 @@ export default async function Page({params}) {
               if(value > max) max = value;
 
               
-              chartData.push({pv: i, Price: value});
+              let date = new Date(data.timestamps[i] * 1000);
+              let hours = (date.getHours() % 12) || 12, minutes = date.getMinutes();
+              let time = (hours) + ":" + (minutes < 10 ? "0" : "") + minutes + " " + (date.getHours() >= 12 ? "PM" : "AM");
+
+              chartData.push({pv: i, Price: value, Time: time});
             }
           }
 

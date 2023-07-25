@@ -5,12 +5,16 @@ import { useState, useEffect } from "react";
 
 export default function Overview({symbol, quote}) {
     let [companyName, setCompanyName] = useState("");
+    let [category, setCategory] = useState("");
     const [favorited, setFavorited] = useState(false);
 
     useEffect(() => {
-        fetch(window.location.origin + "/search/" + symbol.toUpperCase())
+        fetch(window.location.origin + "/search?symbol=" + symbol.toUpperCase())
         .then((result) => result.json())
-        .then((data) => { setCompanyName(data[0]["Company Name"]); });
+        .then((data) => {
+            setCompanyName(data[0]["Company Name"]);
+            setCategory(data[0]["Industry"]);
+        });
     
         fetch("/api/favorites")
         .then((result) => result.json())
@@ -53,6 +57,10 @@ export default function Overview({symbol, quote}) {
           <h1 className="font-bold mx-2 text-xl uppercase">{symbol.toUpperCase()}:</h1>
           <p>${quote}</p>
         </div>
-        <h1 className="font-bold text-xl text-center">{companyName}</h1>
+        <div className="flex items-center justify-center">
+            <img src={`https://logos.stockanalysis.com/${symbol.toLowerCase()}.svg`} width="50" height="50"/>
+            <h1 className="font-bold text-xl text-center">{companyName}</h1>
+        </div>
+        <h3 className="text-lg text-center">{category}</h3>
         </>);
 } 

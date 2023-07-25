@@ -24,11 +24,12 @@ module.exports = {
         var hashAns2 = createHash('sha256').update(answer2).digest('hex');
         var hashAns3 = createHash('sha256').update(answer3).digest('hex');
 
+        let creationTime = Date.now();
 
         const newUser = {
             firstName: firstName, lastName: lastName, loginId: login, password: hashPass, email: email, phone: phone,
             wallet: 10000.00, question1: question1, answer1: hashAns1, question2: question2, answer2: hashAns2, question3: question3,
-            answer3: hashAns3, emailVerified: false, verificationCode: 0, sessionToken: getToken, photo: 0
+            answer3: hashAns3, friendsId: [], emailVerified: false, verificationCode: 0, sessionToken: getToken, creationTime: creationTime, photo: 0
         };
 
         try {
@@ -51,7 +52,6 @@ module.exports = {
                     await db.collection('Portfolio').insertOne({userId:id, portHistoryValueDay:[], portHistoryValueMonth:[]});
                     await db.collection('Friends').insertOne({inComingReq:[], outGoingReq:[], friendList:[], userId: id});
                     status = "success";
-                
                 }
 
             });

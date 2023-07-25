@@ -23,7 +23,7 @@ function Chart({ data, domain}) {
             </linearGradient>
           </defs>
           <Tooltip/>
-          <XAxis dataKey="name" interval={12} strokeWidth={1.5} stroke = {textColor}/>
+          <XAxis dataKey="Time" interval={25} strokeWidth={1.5} stroke = {textColor}/>
           <YAxis type="number" dy={4} domain={domain} tickFormatter={(value) => value.toFixed(2)} tickCount={6} tick={{ fill: textColor }} strokeWidth={1.5} stroke = {textColor}/>
         </AreaChart>
         </ResponsiveContainer>

@@ -11,13 +11,13 @@ module.exports = {
     api: async function(req, res) {
 
         let { user, session } = req.cookies;
-        let { symbol, cost } = req.body;
+        let { symbol, shares } = req.body;
         let price = '';
         let latestPrice = '';
 
         user = parseInt(user);
         
-        if(isNaN(cost) || !symbol) {
+        if(isNaN(shares) || !symbol) {
             res.sendStatus(400);
             res.send(JSON.stringify({error: "invalid parameters"}));
         }
@@ -34,7 +34,7 @@ module.exports = {
             res.sendStatus(501);
         });
 
-        let numStockWishToSell = cost/latestPrice;
+        const cost = shares * latestPrice;
 
         await db.connect(async (db) => {
             //result will have all the information of the user (whole struct user)
@@ -48,15 +48,17 @@ module.exports = {
                 let avgPrice = 0;
                 //index = -1 means never have bought this symbol before
                 for(var i=0; i<stockList.length; i++){
-                    if(stockList[i].companyName == symbol){
+                    if(stockList[i].companyName == symbol) {
                         stockPK = stockList[i].id;
                         index = i;
                         numShare = stockList[i].amountShareOwned;
                         avgPrice = stockList[i].purchasedPrice * numShare;
+
+                        break;
                     }
                 }
 
-                if(numStockWishToSell > numShare || index == -1){
+                if(shares > numShare || index == -1){
                     //try to sell too much
                     res.setHeader('Content-Type', 'application/json');
                     res.send({error: "insufficient stock to sell"});
@@ -71,12 +73,12 @@ module.exports = {
                     //make Order
                     let currentTime = Date.now();
                     let newOrder = {
-                        userId:user, stockCompany:symbol, buyOrSell:"sell", shareAmount:numStockWishToSell, price:latestPrice, timeStamp: currentTime
+                        userId:user, stockCompany:symbol, buyOrSell:"sell", shareAmount:shares, price:latestPrice, timeStamp: currentTime
                     }
                     await db.collection('Orders').insertOne(newOrder);
 
                     //in onder to sell, must have the data in stock table, update it
-                    let remainingShare = numShare - numStockWishToSell;
+                    let remainingShare = numShare - shares;
                     //detect 0 as a range, since it's a double
                     if(remainingShare >= 0 && remainingShare <0.0001){
                         await db.collection('Stock').deleteOne({"id":stockPK});

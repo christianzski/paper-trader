@@ -2,6 +2,22 @@ const db = require('../db');
 const authenticate = require('../authenticate');
 
 module.exports = {
+    getFriend: async function(db, userId, friendName) {
+        let friends = await db.collection('Friends').findOne({userId: parseInt(userId)});
+
+        if(friends && friends.friendList.indexOf(friendName) >= 0) {
+            const friend = await db.collection('Users').findOne({loginId: friendName});
+
+            return {
+                id: friend.id,
+                loginId: friend.loginId,
+                wallet: friend.wallet,
+            };
+        }
+
+        return null;
+    },
+
     api: async function (req, res) {
         const user = await authenticate.login(req.cookies.user, req.cookies.session);
         const login = req.params.user;

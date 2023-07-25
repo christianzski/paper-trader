@@ -2,6 +2,8 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+
+import Search from '@/components/search';
 import DarkModeToggle from './components/DarkModeToggle'
 export default function Header(user) {
 
@@ -34,20 +36,26 @@ export default function Header(user) {
   };
 
   return (
-    <div className = {'flex justify-between dark:bg-slate-600'}>
+    <div className = "flex justify-between items-center dark:bg-slate-600">
       {/*  Left Side  */}
-      <div className="px-2 m-2 space-x-8 flex items-center">
-            <img src="/21-Trading.png" width={100} height={80}/>
+      <div className="px-4 m-2 space-x-14 flex grow items-center">
+            <Link href="/portfolio">
+              <img src="/21-Trading.png" width={100} height={80}/>
+            </Link>
+            <Search/>
       </div>
 
       {/*  Center  */}
+
+      {/*  Right Side  */}
+    
+      <div className="flex pr-10">
       <div className="flex justify-center items-center mt-5 mb-6 dark:text-slate-300">
-        <div className="space-x-10 flex text-sm mg-2 dark: text">
-          <label>{headerLink("/portfolio", "Portfolio")}</label>
+        <div className="space-x-5 flex text-sm mg-2">
           <label>{headerLink("/inbox", "Inbox")}</label>
-          <label>{headerLink("/search", "Search")}</label>
           <label>{headerLink("/friends", "Friends")}</label>
         </div>
+      </div>
       </div>
 
       {/*  Right Side  */}

@@ -45,7 +45,7 @@ export default function Trade({symbol, price}) {
         .then((result) => result.json())
         .then((data) => {
             setShares("" + data["shares"]);
-            setOwned("$" + price * data["shares"]);
+            setOwned("$" + (price * data["shares"]).toFixed(2));
             setAverage("$" + data["price"]);
         });
     }, []);
@@ -92,14 +92,14 @@ export default function Trade({symbol, price}) {
             },
             body: JSON.stringify({
                 "symbol": symbol,
-                "cost": document.getElementById("price").value
+                "shares": parseFloat(document.getElementById("shares").value)
             })
         }).then(async response => {
             const data = await response.json();
 
             if(data["success"] === true) {
                 setShares("" + data["shares"]);
-                setOwned("$" + (price * data["shares"]));
+                setOwned("$" + (price * data["shares"]).toFixed(2));
 
                 get_orders();
 
@@ -125,14 +125,14 @@ export default function Trade({symbol, price}) {
             },
             body: JSON.stringify({
                 "symbol": symbol,
-                "cost": document.getElementById("price").value
+                "shares": parseFloat(document.getElementById("shares").value)
             })
         }).then(async response => {
             const data = await response.json();
 
             if(data["success"] === true) {
                 setShares("" + data["shares"]);
-                setOwned("$" + (price * data["shares"]));
+                setOwned("$" + (price * data["shares"]).toFixed(2));
                 setAverage("$" + data["avg"]);
 
                 get_orders();

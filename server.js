@@ -19,6 +19,8 @@ const login = require('./api/Login');
 const forgotPassword = require('./api/forgotPassword');
 const logout = require('./api/logout');
 
+const user = require('./api/user');
+
 const favorite = require('./api/favorite');
 
 const getShares = require('./api/getShares');
@@ -54,6 +56,8 @@ nextApp.prepare()
 
     server.post('/api/verification', verification.api);
 
+    server.get('/api/user', user.api);
+
     /* User Friends */
     server.post('/api/sendFriendRQ', sendFriend.api);
 
@@ -85,7 +89,7 @@ nextApp.prepare()
     server.get('/history/:symbol/:time', history.api);
 
     // Search for symbols
-    server.get('/search/:symbol', search.api);
+    server.get('/search', search.api);
 
     server.get('*', async (req, res) => {
       const parsed = url.parse(req.url, true);
@@ -99,6 +103,16 @@ nextApp.prepare()
         console.log(`Listening on http://localhost:${port}`);
       }
 
-      setInterval(function() { }, 5 * (1000 * 60));
+      if(process.env.NODE_ENV === 'production') {
+        setInterval(function() {
+          let time = parseInt(Date.now() / 1000);
+          const is5Min = (time % 300) == 0;
+
+          if(is5Min) {
+            // Calculate the portfolio for all users
+            portValue.portValue(time);
+          }
+        }, 1000);
+      }
     });
   });
