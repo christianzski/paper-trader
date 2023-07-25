@@ -29,6 +29,7 @@ const sell = require('./api/sell')
 const sendFriend = require('./api/sendFriendRQ');
 const respondFriend = require('./api/respondFriendRQ');
 const friendList = require('./api/friendList');
+const removeFriend = require('./api/removeFriend');
 
 const cookieParser = require('cookie-parser');
 
@@ -55,6 +56,8 @@ nextApp.prepare()
     server.post('/api/sendFriendRQ', sendFriend.api);
 
     server.post('/api/respondFriendRQ', respondFriend.api);
+
+    server.post('/api/removeFriend', removeFriend.api);
 
     server.get('/friendList/:user', friendList.api);
 

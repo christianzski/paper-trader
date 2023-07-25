@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import Chart from '@/components/chart'
-import Favorited from '@/components/favorited'
+//import Favorited from '@/components/favorited'
 import Portfolio from '@/components/portfolio';
 
 import { useSearchParams } from 'next/navigation'
@@ -35,7 +35,7 @@ export default function Page() {
 
                     <div className="mt-5 dark:text-slate-300">
                         <h3 className="font-bold font-xl">Watchlist</h3>
-                        <Favorited/>
+                        
                     </div>
                 </div>
                 <div className="px-2 text-center font-bold font-xl dark:text-slate-300 border border-cyan-600">
