@@ -33,6 +33,8 @@ const removeFriend = require('./api/removeFriend');
 
 const cookieParser = require('cookie-parser');
 
+const portValue = require('./api/portValue');
+
 nextApp.prepare()
   .then(() => {
     const server = express();
