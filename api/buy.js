@@ -10,15 +10,16 @@ header in the cookies: symbol, cost
 module.exports = {
     api: async function(req, res) {
         let { user, session } = req.cookies;
-        let { symbol, cost } = req.body;
+        let { symbol, shares } = req.body;
         let price = '';
         let latestPrice = '';
 
         user = parseInt(user);
 
-        if(isNaN(cost) || !symbol) {
+        if(isNaN(shares) || !symbol) {
             res.sendStatus(400);
             res.send(JSON.stringify({error: "invalid parameters"}));
+            return;
         }
         
         await quote.get_quote(symbol).then(result => {
@@ -32,6 +33,8 @@ module.exports = {
         }).catch(err => {
             res.sendStatus(501);
         });
+
+        const cost = shares * price;
 
         await db.connect(async (db) => {
             //result will have all the information of the user (whole struct user)
@@ -49,18 +52,18 @@ module.exports = {
 
                     //make order
                     //specify each component in the Order, ignore triggerOrder
-                    let share = cost/latestPrice;
                     let currentTime = Date.now();
                     let newOrder = {
-                        userId: user, stockCompany:symbol, buyOrSell: "buy", shareAmount:share, price:latestPrice, timeStamp:currentTime
+                        userId: user, stockCompany:symbol, buyOrSell: "buy", shareAmount:shares,
+                        price:latestPrice, timeStamp:currentTime
                     }
                     await db.collection('Orders').insertOne(newOrder);
                     //make stock
                     const portResult = await db.collection('Stock').find({"portId":user, "companyName":symbol}).toArray();
                     //never bought this stock before
-                    if(portResult == undefined || portResult.length ==0){
+                    if(portResult == undefined || portResult.length ==0) {
                         const newStock = {
-                            portId:user, companyName:symbol, amountShareOwned:share, purchasedPrice:latestPrice
+                            portId:user, companyName:symbol, amountShareOwned:shares, purchasedPrice:latestPrice
                         }
                         await db.collection('Stock').insertOne(newStock);
 
@@ -69,9 +72,9 @@ module.exports = {
                     } else {
                         //bought this stock before, update amountShareOwned, update avgPrice
                         let stockPK = portResult[0].id;
-                        let numShareTotal = portResult[0].amountShareOwned + share;
+                        let numShareTotal = portResult[0].amountShareOwned + shares;
                         let avgPrice = portResult[0].amountShareOwned * portResult[0].purchasedPrice;
-                        avgPrice += (share*latestPrice);
+                        avgPrice += (shares*latestPrice);
                         avgPrice /= numShareTotal;
                         await db.collection('Stock').updateOne({"id":stockPK},{
                             $set: {

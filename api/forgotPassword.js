@@ -16,10 +16,8 @@ module.exports = {
 
             const results = await db.collection('Users').find({email:email}).toArray();
 
-            num = Math.floor(100000 + Math.random() * 900000);
-
             if(results.length > 0) {
-                sendEmail.api(email, num, 'Password reset')
+                sendEmail.api(email, 'Password reset')
 
                 try{
                 await db.collection('Users').updateOne(

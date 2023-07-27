@@ -1,27 +1,25 @@
 import Link from 'next/link';
+import LeftBear from './leftBear'
+import RightBear from './rightBear'
+import SecondPage from './secondPage.js'
+
 
 export default function Page() {
     return (<>
-        <h1 className="font-bold text-4xl text-center mt-10 mb-3">
-            Welcome to Paper<br/>Trading
-        </h1>
 
-        <p className="text-md text-center">Stock Trading Made Easy</p>
-
-        <div className = "text-center m-5 mt-16">
-            
-                <button className="animate w-64 bg-emerald-400 hover:bg-emerald-500 hover:underline rounded-full py-2 px-10 hover:no-underline">
-                    <Link href="/login" className="no-underline">
-                        Login
-                    </Link>
-                </button>
-            
+        <div className="flex justify-center py-4" >
+            <img src="21TradingMain.png" width={400} height={50}></img>
+        </div>
+        <div className ="interBold text-center">
+            A paper trading platform
+        </div>
+        <div className = "flex flex-row justify-center">
+            <LeftBear></LeftBear>
+            <RightBear></RightBear>
         </div>
 
-        <div className = "text-center m-5">
-            <Link href="/register">
-                <button className="animate w-64 bg-emerald-400 hover:bg-emerald-500 hover:underline rounded-full py-2 px-10 hover:no-underline">Register</button>
-            </Link>
-        </div>
+        <SecondPage></SecondPage>
+            
+    
     </>);
 }

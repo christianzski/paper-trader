@@ -1,6 +1,16 @@
-export default function Page() {
+import Search from './search.js';
+import friendSend from './friendSend.js';
+import frendAdd from './friendAdd.js';
 
-    return (<div>Friends Page!</div>);
+export default function Page({children}) {
+
+    return (
+        <div>
+            <Search />
+            
+        </div>
+        
+    );
 
 
 }

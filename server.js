@@ -17,13 +17,25 @@ const verification = require('./api/verification')
 const register = require('./api/Register');
 const login = require('./api/Login');
 const forgotPassword = require('./api/forgotPassword');
+const logout = require('./api/logout');
+
+const user = require('./api/user');
+
+const favorite = require('./api/favorite');
 
 const getShares = require('./api/getShares');
 const getOrders = require('./api/getOrders');
 const buy = require('./api/buy')
 const sell = require('./api/sell')
 
+const sendFriend = require('./api/sendFriendRQ');
+const respondFriend = require('./api/respondFriendRQ');
+const friendList = require('./api/friendList');
+const removeFriend = require('./api/removeFriend');
+
 const cookieParser = require('cookie-parser');
+
+const portValue = require('./api/portValue');
 
 nextApp.prepare()
   .then(() => {
@@ -33,16 +45,34 @@ nextApp.prepare()
     
     server.use(express.json());
 
-    server.post('/api/get-shares', register.api);
-
+    /* User Authentication */
     server.post('/api/Register', register.api);
 
     server.post('/api/Login', login.api);
+
+    server.post('/api/logout', logout.api);
 
     server.post('/api/Register', forgotPassword.api);
 
     server.post('/api/verification', verification.api);
 
+    server.get('/api/user', user.api);
+
+    /* User Friends */
+    server.post('/api/sendFriendRQ', sendFriend.api);
+
+    server.post('/api/respondFriendRQ', respondFriend.api);
+
+    server.post('/api/removeFriend', removeFriend.api);
+
+    server.get('/friendList/:user', friendList.api);
+
+    /* User Favorites */
+    server.post('/api/favorite', favorite.toggle);
+
+    server.get('/api/favorites', favorite.get);
+
+    /* User Investments */
     server.post('/api/buy', buy.api);
 
     server.post('/api/sell', sell.api);
@@ -51,6 +81,7 @@ nextApp.prepare()
 
     server.get('/api/get-orders', getOrders.api);
 
+    /* Stock information */
     // Get a quote
     server.get('/quote/:symbol', quote.api);
 
@@ -58,7 +89,7 @@ nextApp.prepare()
     server.get('/history/:symbol/:time', history.api);
 
     // Search for symbols
-    server.get('/search/:symbol', search.api);
+    server.get('/search', search.api);
 
     server.get('*', async (req, res) => {
       const parsed = url.parse(req.url, true);
@@ -72,6 +103,16 @@ nextApp.prepare()
         console.log(`Listening on http://localhost:${port}`);
       }
 
-      setInterval(function() { }, 5 * (1000 * 60));
+      if(process.env.NODE_ENV === 'production') {
+        setInterval(function() {
+          let time = parseInt(Date.now() / 1000);
+          const is5Min = (time % 300) == 0;
+
+          if(is5Min) {
+            // Calculate the portfolio for all users
+            portValue.portValue(time);
+          }
+        }, 1000);
+      }
     });
   });

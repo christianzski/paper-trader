@@ -2,6 +2,8 @@ const quote = require('./quote');
 const authenticate = require('../authenticate')
 const db = require('../db');
 
+const friendList = require('./friendList')
+
 module.exports = {
     api: async function(req, res) {
         const user = await authenticate.login(req.cookies.user, req.cookies.session);
@@ -10,7 +12,20 @@ module.exports = {
         if(user) {
             await db.connect(async (db) => {
                 if(symbol == undefined) {
-                    const portfolio = await db.collection('Stock').find({portId: user.id}).map(stock => {
+                    let id = user.id;
+
+                    if(req.query.user) {
+                        const friend = await friendList.getFriend(db, id, req.query.user);
+                        if(friend) id = friend.id;
+                        else {
+                            res.setHeader('Content-Type', 'application/json');
+                            res.send(JSON.stringify({error: "unauthorized"}));
+    
+                            return;
+                        }
+                    }
+                    
+                    const portfolio = await db.collection('Stock').find({portId: id}).map(stock => {
                         return {
                             symbol: stock.companyName,
                             shares: stock.amountShareOwned || 0,

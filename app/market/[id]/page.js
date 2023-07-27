@@ -24,6 +24,8 @@ export default async function Page({params}) {
           let min = Math.max;
           let max = 0;
 
+          let localeOptions = { hour12: true, hour: 'numeric' };
+
           for(var i in data.priceHistory) {
             let value;
             if(data.priceHistory[i] == null) {
@@ -38,7 +40,11 @@ export default async function Page({params}) {
               if(value > max) max = value;
 
               
-              chartData.push({pv: i, Price: value});
+              let date = new Date(data.timestamps[i] * 1000);
+              let hours = (date.getHours() % 12) || 12, minutes = date.getMinutes();
+              let time = (hours) + ":" + (minutes < 10 ? "0" : "") + minutes + " " + (date.getHours() >= 12 ? "PM" : "AM");
+
+              chartData.push({pv: i, Price: value, Time: time});
             }
           }
 
@@ -49,12 +55,7 @@ export default async function Page({params}) {
   return (
     <div className="md:grid block p-5 w-full m-auto grid-flow-row-dense grid-cols-3">
       <div className="max-w-5xl p-2 col-span-2">
-        <div className="flex items-center mb-1">
-          <h1 className="font-bold mx-2 text-xl uppercase">{params.id.toString().toUpperCase()}:</h1>
-          <p>${quote}</p>
-        </div>
-
-        <Overview symbol={params.id.toString().toUpperCase()}/>
+        <Overview symbol={params.id.toString().toUpperCase()} quote={quote}/>
 
         <div className="mt-10">
           <Chart data={chartData} domain={domain}/>

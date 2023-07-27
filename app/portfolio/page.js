@@ -1,43 +1,39 @@
+import Portfolio from '@/components/portfolio'
+import PortfolioChart from '@/components/portfolioChart'
 
-import Link from 'next/link'
-import Chart from '@/components/chart'
-import Portfolio from '@/components/portfolio';
+import db from '../../db';
+import friendList from '../../api/friendList';
 
-import { useSearchParams } from 'next/navigation'
+import { cookies } from 'next/headers'
 
-export default function Page() {
+export default async function Page({searchParams}) {
+    if(searchParams.user) {
+        // User is already authenticated if this page is rendering
+        const cookieStore = cookies();
+        const userId = cookieStore.get('user')?.value;
+        let friend = null;
+        
+        await db.connect(async (db) => {
+            friend = await friendList.getFriend(db, userId, searchParams.user);
+        });
+
+        if(!friend) {
+            return (<div className="text-center">Sorry, this user does not exist or is not your friend.</div>)
+        }
+    }
+
     return (
         <main className="flex flex-col items-center">
             <div className="grid p-5 w-full grid-flow-row-dense grid-cols-3 grid-rows-1">
-                <div className  ="col-span-2">
-                    <div className="flex justify-between items-center mb-1">
-                        <div>
-                            <div className="inline-block bg-purple-300 px-3 mr-1 rounded-full font-bold">1 Month</div>
-                            <div className="h-full inline-block">
-                                -
-                            </div>
+                <div className="col-span-2">
+                    <PortfolioChart/>
 
-                            <div className="inline-block bg-purple-300 px-3 ml-1 rounded-full font-bold">14%</div>
-                        </div>
-
-                        <div>
-                            <p className="font-bold">Portfolio Balance</p>
-                            <div className="bg-teal-300 rounded-full w-full text-center">
-                                $ {10000}
-                            </div>
-                        </div>
-                    </div>
-
-                    <h3>Portfolio History</h3>
-                    <div className="w-full">
-                        <Chart data={[{pv: 0, Price: 10000}, {pv: 1, Price: 10000}]} domain={[9500, 10500]}/>
-                    </div>
-
-                    <div className="mt-5">
-                        <h3 className="font-bold font-lg">Favorited</h3>
+                    <div className="mt-5 dark:text-slate-300">
+                        <h3 className="font-bold font-xl">Watchlist</h3>
+                        
                     </div>
                 </div>
-                <div className="text-center">
+                <div className="px-2 text-center font-bold font-xl dark:text-slate-300 m-1 border border-slate-300 dark:border-cyan-600">
                     Stock Portfolio
                     <Portfolio/>
                 </div>

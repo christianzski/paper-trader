@@ -4,7 +4,9 @@ sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 const db = require('../db');
 
 module.exports = {
-    api: async function(email, num, subject){
+    api: async function(email, subject){
+
+        const num = Math.floor(100000 + Math.random() * 900000);
         
         const msg = {
             to:email,
