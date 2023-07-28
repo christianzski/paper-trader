@@ -29,7 +29,8 @@ module.exports = {
         const newUser = {
             firstName: firstName, lastName: lastName, loginId: login, password: hashPass, email: email, phone: phone,
             wallet: 10000.00, question1: question1, answer1: hashAns1, question2: question2, answer2: hashAns2, question3: question3,
-            answer3: hashAns3, friendsId: [], emailVerified: false, verificationCode: 0, sessionToken: getToken, creationTime: creationTime, photo: 0
+            answer3: hashAns3, emailVerified: false, verificationCode: 0, sessionToken: getToken, creationTime: creationTime, photo: 1,
+            lowestBalance: 10000.00, highestBalance: 10000.00
         };
 
         try {

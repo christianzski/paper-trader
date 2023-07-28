@@ -13,6 +13,8 @@ module.exports = {
             for(var i=0; i<users.length; i++){
                 
                 var portVal = users[i].wallet;
+                var lowest = users[i].lowestBalance;
+                var highest = users[i].highestBalance;
 
                 var allStockForThisUser = await db.collection('Stock').find({"portId":users[i].id}).toArray();
                 var curPort = await db.collection('Portfolio').findOne({"userId":users[i].id});
@@ -42,7 +44,14 @@ module.exports = {
                     portVal += (allStockForThisUser[j].amountShareOwned * priceMap.get(allStockForThisUser[j].companyName));            
                 }
 
-  
+                if(portVal > highest){
+                    //set new highest
+
+                }
+                if(portVal < lowest){
+                    //set new lowest
+
+                }
                 var dayCount = curPort.portHistoryValueDay.length;
                 
                 var monthCount = curPort.portHistoryValueMonth.length
@@ -67,13 +76,7 @@ module.exports = {
                             $push: {
                                 portHistoryValueDay: newest,
                                 portHistoryValueMonth: newest}
-                        }
-                        /*
-                        {
-                            $pop: { user: 1 },
-                            $push: { user: req.params.userId }
-                        }
-                        */
+                        }                    
                     )
                 } else if (dayCount == 288 && monthCount < 720 && !monthFlag) {
                     //case 3 day arrays is full, month is not full, not %3600
