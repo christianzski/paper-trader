@@ -34,7 +34,7 @@ module.exports = {
             res.sendStatus(501);
         });
 
-        const cost = shares * price;
+        const cost = shares * latestPrice;
 
         await db.connect(async (db) => {
             //result will have all the information of the user (whole struct user)
@@ -68,7 +68,7 @@ module.exports = {
                         await db.collection('Stock').insertOne(newStock);
 
                         res.setHeader('Content-Type', 'application/json');
-                        res.send(JSON.stringify({"success": true, "shares": share, "avg": latestPrice, "price": latestPrice}));
+                        res.send(JSON.stringify({"success": true, "shares": shares, "avg": latestPrice, "price": latestPrice}));
                     } else {
                         //bought this stock before, update amountShareOwned, update avgPrice
                         let stockPK = portResult[0].id;
