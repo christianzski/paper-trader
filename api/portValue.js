@@ -46,11 +46,17 @@ module.exports = {
 
                 if(portVal > highest){
                     //set new highest
-
+                    await db.collection('Users').updateOne(
+                        {"id":users[i].id},
+                        {$set: {highestBalance:portVal}}
+                    )
                 }
                 if(portVal < lowest){
                     //set new lowest
-
+                    await db.collection('Users').updateOne(
+                        {"id":users[i].id},
+                        {$set: {lowestBalance:portVal}}
+                    )
                 }
                 var dayCount = curPort.portHistoryValueDay.length;
                 
