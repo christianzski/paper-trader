@@ -36,7 +36,7 @@ export default function Header(user) {
   };
 
   return (
-    <div className = "flex justify-between items-center dark:bg-slate-600">
+    <div className = "flex justify-between items-center dark:bg-slate-600 fixed w-screen backdrop-blur-xl">
       {/*  Left Side  */}
       <div className="px-4 m-2 space-x-14 flex grow items-center">
             <Link href="/portfolio">
@@ -75,15 +75,15 @@ export default function Header(user) {
         <div className="flex items-center">
           <div>
             <Link href = "/account">
-            <button className="rounded-full p-1 bg-gray-300 hover:bg-gray-400 text-slate-100">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"/>
-              </svg>
+            <button className="rounded-full bg-gray-300 hover:bg-gray-400 text-slate-100">
+
+              <img src = {`images/pic${user.user.photo}.png`} width={34} height={34}></img>
+
             </button>
             </Link>
           </div>
           <div className="pl-2 text-center dark:text-slate-300">
-            <p className="font-bold">{capitalizeFirstLetter(user.user.firstName)}</p>
+            <p className="normalText">{capitalizeFirstLetter(user.user.firstName)}</p>
           </div>
         </div>
         </div>

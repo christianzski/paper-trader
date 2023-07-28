@@ -103,7 +103,7 @@ export default function Page() {
     }
 
     return (
-        <div className="mt-5 block rounded-lg m-auto bg-slate-200 max-w-sm p-6 shadow-lg">
+        <div className="mt-5 block rounded-lg m-auto bg-slate-200 max-w-sm p-6 shadow-lg drop-shadow-lg">
             { (page == 0) ? (<></>) :
             (<button onClick={previous} className="animate bg-emerald-400 hover:bg-emerald-500 hover:underline rounded-full">
                 <ChevronLeftIcon

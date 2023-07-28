@@ -10,7 +10,7 @@ module.exports = {
         
         const msg = {
             to:email,
-            from:'papertrader42@gmail.com',
+            from:'support@21-trading.com',
             subject:subject,
             text: num + ' is your verification code.'
         }

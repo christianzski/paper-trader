@@ -1,44 +1,27 @@
-'use client'
+'use client';
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
+import { useRouter } from 'next/navigation' // Corrected import statement
 import React, { useState } from "react";
 
 export default function Account( {user}) {
+
+
     const router = useRouter();
     const [error, setError] = useState("");
-    
+    const [showEmail, setShowEmail] = useState(false);
+    const [page, setPage] = useState('profile');
+    const [profilePic, setProfilePic] = useState(0);
+    const [showDiv, setShowDiv] = useState(false);
+
     async function logout() {
-        await fetch("/api/logout", {
-            method: 'POST',
-            mode: 'cors',
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                "login": user.loginId
-                
-            })
-        }).then(async response => {
-            const data = await response.json();
-
-            if(data["message"] == 'Success') {
-                //router.push('/');
-                window.location.href = "/";
-            } else {
-                setError("Invalid username or password.");
-            }
-        }).catch(error => {
-            setError("A server error has occurred.");
-        });
+        // Your logout logic
     }
-    const profilePic = 0;
-    function ShowDivButton() {
-        const [showDiv, setShowDiv] = useState(false);
 
+    function ShowDivButton() {
         const handleClick = () => {
             setShowDiv(!showDiv);
         };
-        
+
         return (
             <div>
             {showDiv ? (
@@ -47,17 +30,12 @@ export default function Account( {user}) {
                     <div>This is the div to be shown</div>
                     
                     <div className = "grid grid-cols-4 justify-items-center px-1 py-2">
-                        <p><img src ="profilePictures/profPic1.png" width={40} height={40}></img></p>
-                        <p><img src ="profilePictures/profPic2.png" width={40} height={40}></img></p>
-                        <p><img src ="profilePictures/profPic3.png" width={40} height={40}></img></p>
-                        <p><img src ="profilePictures/profPic4.png" width={40} height={40}></img></p>
-                        <p><img src ="profilePictures/profPic5.png" width={40} height={40}></img></p>
-                        <p><img src ="profilePictures/profPic6.png" width={40} height={40}></img></p>
-                        <p><img src ="profilePictures/profPic7.png" width={40} height={40}></img></p>
-                        <p><img src ="profilePictures/profPic8.png" width={40} height={40}></img></p>
+                        {[1, 2, 3, 4, 5, 6, 7, 8].map((num) => (
+                          <p key={num} onClick={() => setProfilePic(num)}>
+                            <img src ={`images/pic${num}.png`} width={40} height={40}></img>
+                          </p>
+                        ))}
                     </div>
-
-
 
                 </div>
             
@@ -66,25 +44,69 @@ export default function Account( {user}) {
             )}
             </div>
         );
-      }
+    }
 
+    const renderProfile = () => (
+        <div className="flex flex-col p-8">
+            <p className = "interBold">Account</p>
+            
+            <p className="text-xl">First Name: {user.firstName}</p>
+            <p className="text-xl">Last Name: {user.lastName}</p>
+            <p className="text-xl">
+                Email: 
+                {showEmail ? user.fullEmail : user.email} 
+                <button 
+                    className="ml-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                    onClick={() => setShowEmail(!showEmail)}
+                >
+                    Toggle
+                </button>
+            </p>
+            
+            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4">
+                Forgot Password
+            </button>
+            
+            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4">
+                Change Email
+            </button>
+            
+            <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mt-4">
+                Delete Account
+            </button>
+        </div>
+    )
 
+    const renderAnalytics = () => (
+        <div className="flex flex-col p-8">
+            <h1 className="text-4xl font-bold mb-4">User Analytics</h1>
+            
+            <p className="text-xl">Balance: {user.wallet}</p>
+            {/* You can replace with your own data as needed */}
+            <p className="text-xl">Highest Price: $500</p>
+            <p className="text-xl">Lowest Price: $50</p>
+            <p className="text-xl">Account Created: July 10, 2021</p>
+        </div>
+    )
 
     return (
+        
         <div className="flex-col justify-center">
+            <button 
+                    className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mb-4" 
+                    onClick={() => setPage(page === 'profile' ? 'analytics' : 'profile')}
+                >
+                     {page === 'profile' ? 'Analytics' : 'Profile'} View
+                </button>
         
             <div className = "w-1/2 mx-auto text-center m-5 mb-0 bg-contain rounded-lg py-3 border-4 border-x-rose-500 border-y-rose-500">
-
                 <div className="py-4">
                     <button className="rounded-full p-1 bg-gray-300 hover:bg-gray-400 text-slate-100">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-20 h-20">
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"/>
-                        </svg>
+                        <img src = {`images/profPic${profilePic}.png`}></img>
                     </button>
                     <ShowDivButton/>
                     <p className ="p-2"> {user.loginId} </p>
                     <p className ="p-2">{user.firstName} {user.lastName} </p>
-                    
                 </div>
 
                 <div className = "interBold justify-start py-5">
@@ -95,7 +117,9 @@ export default function Account( {user}) {
                     <p>${user.wallet}</p>
                 </div> 
 
-
+                
+                
+                {page === 'profile' ? renderProfile() : renderAnalytics()}
 
                 <button onClick={() => logout()} className="animate w-30 bg-red-500 hover:bg-red-400 rounded-full py-2 px-10 no-underline">Logout</button>
             </div>

@@ -1,0 +1,113 @@
+
+
+
+# Requirements
+
+
+# Account | Analytics
+
+ - Forgot Password
+ - Update User
+    - Highest Account Balance
+    - Account Created
+
+# --------- Account ------------
+
+|-----|
+|     |   Change Profile Picture    [ Options ]
+|-----|                                  |
+                                         v
+                                    Edit Profile
+                                    Delete Profile
+                                
+
+First-Name  Last-Name
+userId
+Email - Display/Hide
+
+Change Password
+
+
+
+# ------  Overview  ------
+
+Account Created  - June 2020
+
+Highest Account Balance         $ 13,452.13
+Lowest Account Balance          $ 8,382.43
+
+((((( Render The Pie Chart )))))
+
+(( Render other Pie Chart ))
+
+
+
+
+
+
+
+
+
+# Prompt
+
+Given a JSON file in the form 
+[
+    {
+        "Symbol": "A",
+        "Company Name": "Agilent Technologies, Inc.",
+        "Industry": "Diagnostics & Research"
+    },
+    {
+        "Symbol": "AA",
+        "Company Name": "Alcoa Corporation",
+        "Industry": "Aluminum"
+    },
+    {
+        "Symbol": "AACI",
+        "Company Name": "Armada Acquisition Corp. I",
+        "Industry": "Shell Companies"
+    },
+    {
+        "Symbol": "AACT",
+        "Company Name": "Ares Acquisition Corporation II",
+        "Industry": "Shell Companies"
+    }
+]
+
+Give me a python script that when given a json like the one I just mentioned will give me an updated JSON that will aggregate and combine all of the companies 
+whose 'Industry' are the same. 
+
+An example result JSON would be:
+
+
+[
+    Category 
+    {
+    "Aluminum":
+    {
+        {
+            "Symbol": "AA",
+            "Company Name": "Alcoa Corporation"
+        }
+    },
+    "Diagnostics & Research:"
+    {  
+        {
+            "Symbol": "A", 
+            "Company Name": "Agilent Technologies, Inc.", 
+        }
+    }
+    "Shell Companies":
+    {
+        {
+            "Symbol": "AACI",
+            "Company Name": "Armada Acquisition Corp. I"
+        },
+        {
+            "Symbol": "AACT",
+            "Company Name": "Ares Acquisition Corporation II"
+        }
+    }
+    }
+]
+

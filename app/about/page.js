@@ -3,7 +3,7 @@ export default function Page() {
     return (
 
         <main>
-            <div className ="slightlyBigger flex justify-center py-7">
+            <div className ="slightlyBigger flex justify-center py-7 mt-20">
                 Meet the Team
             </div>
 

@@ -43,16 +43,19 @@ export default async function RootLayout({ children }) {
   
     const renderAuthenticatedContent = () => (
       <div className="border-b">
-        <nav className="border-b relative group">  
+        <nav className="border-b relative group pb-20">  
             <Header user={user} />
         </nav>
-        {children}
+        <div className= "pt-30">
+          {children}
+        </div>
+        
       </div>
     );
   
     const renderUnauthenticatedContent = () => (
       <div className="landing h-screen">
-        <div className="flex flex-row justify-between border">
+        <div className="flex flex-row justify-between border fixed w-screen backdrop-blur-md">
           <div className="flex items-center py-5">
             <div className="mx-5">
               <Link href="/" className="text-2xl interBold"> Home </Link>

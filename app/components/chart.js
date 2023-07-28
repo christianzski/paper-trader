@@ -1,6 +1,9 @@
 'use client'
 import { AreaChart, Area, Tooltip, XAxis, YAxis, ResponsiveContainer } from 'recharts';
 const val = "#0891b2"
+
+
+
 function Chart({ data, domain}) {
   let graphColor = "#8884d8";
   let textColor = "#020617";

@@ -33,8 +33,8 @@ export default async function Page({searchParams}) {
                         
                     </div>
                 </div>
-                <div className="px-2 text-center font-bold font-xl dark:text-slate-300 m-1 border border-slate-300 dark:border-cyan-600">
-                    Stock Portfolio
+                <div className="px-2 text-center font-bold font-xl dark:text-slate-300 m-1 border-l-2 border-sky-900 dark:border-sky-50 interBold">
+                    <div className = "pb-3 border-b-2">Portfolio</div>
                     <Portfolio/>
                 </div>
             </div>

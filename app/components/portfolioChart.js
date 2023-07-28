@@ -44,7 +44,7 @@ export default function PortfolioChart() {
             </div>
         </div>
 
-        <div>
+        <div className = "self-justify-start px-10">
             <p className="font-bold dark:text-slate-300">Portfolio Balance</p>
             <div className="bg-teal-300 rounded-full w-full text-center">
                 ${balance.toFixed(2)}
@@ -53,7 +53,7 @@ export default function PortfolioChart() {
         </div>
 
 
-        <h3 className="dark:text-slate-300 font-bold font-xl">Portfolio History</h3>
+        <h3 className="dark:text-slate-300 font-bold font-xl interBold">Portfolio History</h3>
         <div className="w-full">
         <Chart data={[{pv: 0, Price: balance.toFixed(2)}, {pv: 1, Price: balance.toFixed(2)}]} domain={[balance - balance * 0.05, balance - balance * 0.05]}/>
         </div>
