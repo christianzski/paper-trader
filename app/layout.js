@@ -1,5 +1,5 @@
 import './globals.css'
-import { Roboto } from 'next/font/google'
+import { Inter } from 'next/font/google'
 
 import { cookies, headers } from 'next/headers'
 import { redirect } from 'next/navigation'
@@ -12,7 +12,7 @@ import authenticate from '../authenticate';
 
 import React from "react";
 
-const roboto = Roboto({
+const inter = Inter({
     weight: ['300', '400', '500'],
     subsets: ['latin'],
     display: 'swap'
@@ -42,7 +42,7 @@ export default async function RootLayout({ children }) {
 
   
     const renderAuthenticatedContent = () => (
-      <div className="border-b">
+      <div className="">
         <nav className="border-b relative group pb-20">  
             <Header user={user} />
         </nav>
@@ -80,7 +80,7 @@ export default async function RootLayout({ children }) {
     );
   
     return (
-      <html lang="en" className={roboto.className}>
+      <html lang="en" className={inter.className}>
         <body>
           <Redirect authenticated={!!user} />
             {user && user.emailVerified ? renderAuthenticatedContent() : renderUnauthenticatedContent()}

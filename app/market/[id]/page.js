@@ -10,6 +10,8 @@ export default async function Page({params}) {
   let chartData = [];
   let domain = [];
   
+  let isUp = true;
+
   const protocol = process.env.NODE_ENV === 'production' ? "https" : "http";
 
   await fetch(protocol + "://" + list.headers.host + "/quote/" + params.id)
@@ -23,7 +25,7 @@ export default async function Page({params}) {
         .then((data) => {
           let min = Math.max;
           let max = 0;
-
+          isUp = data.isUp;
           let localeOptions = { hour12: true, hour: 'numeric' };
 
           for(var i in data.priceHistory) {
@@ -48,6 +50,10 @@ export default async function Page({params}) {
             }
           }
 
+          if (chartData[0] > chartData[chartData.length - 1]) { 
+            isUp = false;
+          }
+
           const percent = (max - min) * 0.05;
           domain = [min - percent, max + percent];
         });
@@ -58,7 +64,7 @@ export default async function Page({params}) {
         <Overview symbol={params.id.toString().toUpperCase()} quote={quote}/>
 
         <div className="mt-10">
-          <Chart data={chartData} domain={domain}/>
+          <Chart data={chartData} domain={domain} isUp={isUp}/>
         </div>
       </div>
 

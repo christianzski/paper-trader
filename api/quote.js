@@ -8,6 +8,12 @@ module.exports = {
 
         let price = '';
         price = result['chart']['result']['0']['meta']['regularMarketPrice'];
+
+
+        // let initialPriceDayPrice = result['chart']['result']['indicators']['quote']['open']['0'];
+        
+        // Perform calculation to get daily percent change
+
         if(price.length == 0) {
             return {error: "Symbol not found"};
         } else return {symbol: symbol, latestPrice: price};

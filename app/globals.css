@@ -221,6 +221,15 @@ section span {
 	letter-spacing: -1px;
   }
 
+.category {
+  font-weight: 700;
+	font-family: "Inter-Bold", "Inter", sans-serif;
+	color: rgba(0, 0, 0, 0.9);
+	font-size: 30px;
+	letter-spacing: -1px;
+}
+
+
 .loginlogout {
 	font-weight: 700;
 	font-family: "Inter-Bold", "Inter", sans-serif;
@@ -235,6 +244,14 @@ section span {
     color: rgba(0, 0, 0, 0.9);
     font-size: 14px;
     }
+
+/* 
+  .normalDarkModeText {
+    font-weight: 700;
+    font-family: "Inter-Bold", "Inter", sans-serif;
+    color: rgba(255, 232, 232, 0.9);
+    font-size: 14px;
+  } */
 
 
   .chartColor {

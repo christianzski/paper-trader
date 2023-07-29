@@ -13,6 +13,25 @@ export default function Account( {user}) {
     const [profilePic, setProfilePic] = useState(0);
     const [showDiv, setShowDiv] = useState(false);
 
+    function hideEmail(email) {
+        // Find the index of '@'
+        let atIndex = email.indexOf('@');
+    
+        // If '@' symbol doesn't exist, return the email as is
+        if (atIndex === -1) return email;
+    
+        // Keep the first 2 characters and the character at '@' index
+        let visiblePartStart = email.substring(0, 2);
+        let visiblePartEnd = email.substring(atIndex);
+    
+        // Replace all characters between with '*'
+        let hiddenPart = '*'.repeat(atIndex - 2);
+    
+        return visiblePartStart + hiddenPart + visiblePartEnd;
+    }
+
+
+
     async function logout() {
         // Your logout logic
     }
@@ -25,22 +44,22 @@ export default function Account( {user}) {
         return (
             <div>
             {showDiv ? (
-                <div>
-                    <button onClick={handleClick}>Change User Profile</button>
-                    <div>This is the div to be shown</div>
-                    
-                    <div className = "grid grid-cols-4 justify-items-center px-1 py-2">
+                <div className = "w-100">
+                    <button className = "normalText" onClick={handleClick}>Change User Profile</button>
+                    <div className = "w-1/2 mx-auto grid grid-cols-4 justify-items-center px-1 py-2">
                         {[1, 2, 3, 4, 5, 6, 7, 8].map((num) => (
-                          <p key={num} onClick={() => setProfilePic(num)}>
+                          <p className = "p-2" key={num} onClick={() => setProfilePic(num)}>
                             <img src ={`images/pic${num}.png`} width={40} height={40}></img>
                           </p>
                         ))}
                     </div>
 
+                    <button className = "rounded-lg bg-green-300 p-2 normalText" onClick={handleClick}>Save</button>
+
                 </div>
             
             ) : (
-                <button onClick={handleClick}>Change User Profile</button>
+                <button className = "normalText" onClick={handleClick}>Change User Profile</button>
             )}
             </div>
         );
@@ -48,22 +67,27 @@ export default function Account( {user}) {
 
     const renderProfile = () => (
         <div className="flex flex-col p-8">
-            <p className = "interBold">Account</p>
-            
-            <p className="text-xl">First Name: {user.firstName}</p>
-            <p className="text-xl">Last Name: {user.lastName}</p>
-            <p className="text-xl">
-                Email: 
-                {showEmail ? user.fullEmail : user.email} 
+
+            <div className="py-4">
+                    <button className="rounded-full p-1 bg-gray-300 hover:bg-gray-400 text-slate-100">
+                        <img src = {`images/pic${profilePic || user.photo}.png`} width={100} height={100}></img>
+                    </button>
+                    <ShowDivButton/>
+                    <p className ="py-5 p-3 inter-bold">{user.firstName} {user.lastName}  -  {user.loginId.toUpperCase()} </p>
+                </div>
+            <p className="grid grid-row-1 grid-col-2 place-items-center text-xl interBold flex-none justify-self-center">
+                {showEmail ? user.email : hideEmail(user.email)} 
                 <button 
-                    className="ml-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                    className="mx-3 pt-3"
                     onClick={() => setShowEmail(!showEmail)}
                 >
-                    Toggle
+                    <img className = "pt-2" src="eyeballTransparent.png" width={30} height={30}></img>
                 </button>
+                <p className = "interBold py-1">Balance ${(user.wallet).toFixed(2)}</p>
             </p>
             
-            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4">
+            
+            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4 max-w-300">
                 Forgot Password
             </button>
             
@@ -82,7 +106,10 @@ export default function Account( {user}) {
             <h1 className="text-4xl font-bold mb-4">User Analytics</h1>
             
             <p className="text-xl">Balance: {user.wallet}</p>
+
             {/* You can replace with your own data as needed */}
+
+
             <p className="text-xl">Highest Price: $500</p>
             <p className="text-xl">Lowest Price: $50</p>
             <p className="text-xl">Account Created: July 10, 2021</p>
@@ -99,28 +126,10 @@ export default function Account( {user}) {
                      {page === 'profile' ? 'Analytics' : 'Profile'} View
                 </button>
         
-            <div className = "w-1/2 mx-auto text-center m-5 mb-0 bg-contain rounded-lg py-3 border-4 border-x-rose-500 border-y-rose-500">
-                <div className="py-4">
-                    <button className="rounded-full p-1 bg-gray-300 hover:bg-gray-400 text-slate-100">
-                        <img src = {`images/profPic${profilePic}.png`}></img>
-                    </button>
-                    <ShowDivButton/>
-                    <p className ="p-2"> {user.loginId} </p>
-                    <p className ="p-2">{user.firstName} {user.lastName} </p>
-                </div>
-
-                <div className = "interBold justify-start py-5">
-                    Overview
-                </div>
-                <div className = "flex flex-row justify-between px-10">
-                    <p>Balance:</p>
-                    <p>${user.wallet}</p>
-                </div> 
-
-                
-                
+            
+            <div className = "w-1/2 mx-auto text-center m-5 mb-0 bg-contain py-3 drop-shadow-lg">
                 {page === 'profile' ? renderProfile() : renderAnalytics()}
-
+                
                 <button onClick={() => logout()} className="animate w-30 bg-red-500 hover:bg-red-400 rounded-full py-2 px-10 no-underline">Logout</button>
             </div>
 

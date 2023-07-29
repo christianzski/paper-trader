@@ -4,8 +4,15 @@ const val = "#0891b2"
 
 
 
-function Chart({ data, domain}) {
-  let graphColor = "#8884d8";
+function Chart({ data, domain, isUp}) {
+  let graphColor;
+
+  if (isUp) {
+    graphColor = "#0b9e5e";
+  } else {
+    graphColor = "#a81947";
+  }
+
   let textColor = "#020617";
   if (document.documentElement.classList.contains("dark")) 
   {
@@ -26,8 +33,8 @@ function Chart({ data, domain}) {
             </linearGradient>
           </defs>
           <Tooltip/>
-          <XAxis dataKey="Time" interval={25} strokeWidth={1.5} stroke = {textColor}/>
-          <YAxis type="number" dy={4} domain={domain} tickFormatter={(value) => value.toFixed(2)} tickCount={6} tick={{ fill: textColor }} strokeWidth={1.5} stroke = {textColor}/>
+          <XAxis dataKey="Time" interval={25} strokeWidth={2} stroke = {textColor}/>
+          <YAxis type="number" dy={4} domain={domain} tickFormatter={(value) => value.toFixed(2)} tickCount={6} tick={{ fill: textColor }} strokeWidth={0} stroke = {textColor}/>
         </AreaChart>
         </ResponsiveContainer>
     </div>
