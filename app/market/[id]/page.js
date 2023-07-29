@@ -25,7 +25,7 @@ export default async function Page({params}) {
         .then((data) => {
           let min = Math.max;
           let max = 0;
-          isUp = data.isUp;
+          
           let localeOptions = { hour12: true, hour: 'numeric' };
 
           for(var i in data.priceHistory) {
@@ -50,7 +50,7 @@ export default async function Page({params}) {
             }
           }
 
-          if (chartData[0] > chartData[chartData.length - 1]) { 
+          if (chartData[0].Price > chartData[chartData.length - 1].Price) { 
             isUp = false;
           }
 
