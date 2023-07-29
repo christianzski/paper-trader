@@ -89,10 +89,11 @@ module.exports = {
                     //pop oldest and push newest in day, don't touch month
                     await db.collection('Portfolio').updateOne(
                         {"userId":users[i].id},   
-                        {
-                            $pop : {portHistoryValueDay:-1},
-                            $push: {portHistoryValueDay: newest}
-                        }                    
+                        {$pop : {portHistoryValueDay:-1}}                    
+                    )
+                    await db.collection('Portfolio').updateOne(
+                        {"userId":users[i].id},
+                        {$push: {portHistoryValueDay: newest}}
                     )
                 } else if (dayCount == 288 && monthCount < 720 && monthFlag){
                     //case 4 day arrays is full, month is not full, it is 3600
@@ -100,21 +101,25 @@ module.exports = {
                     await db.collection('Portfolio').updateOne(
                         {"userId":users[i].id},
                         {
-                            $pop: {portHistoryValueDay:-1},
                             $push: {
                                 portHistoryValueDay: newest,
                                 portHistoryValueMonth: newest}
                         }                        
                     )
+                    await db.collection('Portfolio').updateOne(
+                        {"userId":users[i].id},
+                        {$pop: {portHistoryValueDay:-1}}
+                    )
                 } else if (dayCount == 288 && monthCount == 720 && !monthFlag) {
                     //case 5 day arrays is full, month is full, not %3600
                     //pop oldest and push newest in day, , don't touch month
                     await db.collection('Portfolio').updateOne(
+                        {"userId":users[i].id},   
+                        {$pop : {portHistoryValueDay:-1}}                    
+                    )
+                    await db.collection('Portfolio').updateOne(
                         {"userId":users[i].id},
-                        {
-                            $pop : {portHistoryValueDay:-1},
-                            $push: {portHistoryValueDay: newest}
-                        }   
+                        {$push: {portHistoryValueDay: newest}}
                     )
                 } else if (dayCount == 288 && monthCount == 720 && monthFlag) {
                     //case 6 day arrays is full, month is full, it is %3600
@@ -124,11 +129,16 @@ module.exports = {
                         {
                             $pop: {
                                 portHistoryValueDay:-1,
-                                portHistoryValueMonth:-1},
+                                portHistoryValueMonth:-1}
+                        }
+                    )
+                    await db.collection('Portfolio').updateOne(
+                        {"userId":users[i].id},
+                        {
                             $push: {
                                 portHistoryValueDay: newest,
                                 portHistoryValueMonth: newest}
-                        }
+                        }                        
                     )
                 }
                 //there will be no case where month is full but day is not full due to length cond
