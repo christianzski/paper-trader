@@ -20,11 +20,11 @@ function Chart({ data, domain, isUp}) {
     graphColor = "#cbd5e1";
   }
   return (
-    <div>
+    <div> 
         <ResponsiveContainer width={"95%"} height={300}>
-        <AreaChart width={600} height={300} data={data} 
+        <AreaChart  width={600} height={300} data={data} 
   margin={{ top: 10, right: 30, left: 30, bottom: 0 }}>
-          <Area type="monotone" dataKey="Price" stroke={graphColor} fillOpacity={1} fill="url(#colorPrice)" />
+          <Area type="monotone" dataKey="Price" stroke={graphColor} fillOpacity={2} fill="url(#colorPrice)" />
           <defs>
             <linearGradient id="colorPrice" x1="0" y1="0" x2="0" y2="1">
 

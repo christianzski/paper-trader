@@ -61,7 +61,7 @@ export default async function RootLayout({ children }) {
               <Link href="/" className="text-2xl interBold"> Home </Link>
             </div>
             <Link href="/about" className="text-2xl interBold"> About </Link>
-        </div>
+          </div>
           <div className ="flex-row justify-end py-5">
               <Link href="/login" className="no-underline mx-3 loginlogout">
                   <button className="animate w-23 bg-emerald-400 hover:bg-emerald-500 hover:underline rounded-bl-lg rounded-tr-lg py-2 px-7 hover:no-underline">
@@ -72,10 +72,10 @@ export default async function RootLayout({ children }) {
                 <button className="animate w-23 bg-emerald-400 hover:bg-emerald-500 hover:underline rounded-tl-lg rounded-br-lg py-2 px-7 hover:no-underline">Register</button>
             </Link>
           </div>
-          
-
         </div>
-        {children}
+        <div className = "pt-20">
+          {children}
+        </div>
       </div>
     );
   

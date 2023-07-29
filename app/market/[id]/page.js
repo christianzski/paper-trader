@@ -41,7 +41,7 @@ export default async function Page({params}) {
               if(value < min) min = value;
               if(value > max) max = value;
 
-              
+
               let date = new Date(data.timestamps[i] * 1000);
               let hours = (date.getHours() % 12) || 12, minutes = date.getMinutes();
               let time = (hours) + ":" + (minutes < 10 ? "0" : "") + minutes + " " + (date.getHours() >= 12 ? "PM" : "AM");
