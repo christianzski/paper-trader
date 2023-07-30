@@ -36,11 +36,12 @@ export default function Header(user) {
   };
 
   return (
-    <div className = "flex justify-between items-center dark:bg-slate-600 fixed w-screen backdrop-blur-xl">
+    <div className = "visible flex justify-between items-center dark:bg-slate-600 fixed w-screen backdrop-blur-xl">
       {/*  Left Side  */}
       <div className="px-4 m-2 space-x-14 flex grow items-center">
             <Link href="/portfolio">
-              <img src="/21-Trading.png" width={100} height={80}/>
+              <img src="/21-Trading.png" width={100} height={80} className='dark:hidden'/>
+              <img src="/white21trading.png" width={100} height = {80} className='hidden dark:block dark:left-0'/>
             </Link>
             <Search/>
       </div>
