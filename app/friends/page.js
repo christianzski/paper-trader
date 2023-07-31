@@ -37,9 +37,8 @@ export default function Page() {
     useEffect(() => {
         setSearch(search);
 
-        if(search.length > 0) {
-            updateFriends();
-        } else setFriends([]);
+        updateFriends();
+        
     }, [search]);
 
     useEffect(() => {

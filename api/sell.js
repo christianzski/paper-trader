@@ -61,7 +61,7 @@ module.exports = {
                     if(shares > numShare || index == -1){
                         //try to sell too much
                         res.setHeader('Content-Type', 'application/json');
-                        res.send({error: "insufficient stock to sell"});
+                        res.send({error: "Insufficient stock to sell."});
                     } else {
                         //start selling--------------
                         //update more money in user's wallet

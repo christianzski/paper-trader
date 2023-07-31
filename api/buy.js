@@ -45,7 +45,7 @@ module.exports = {
                     if(isNaN(results.wallet) || cost > results.wallet) {
                         //too little fund to buy
                         res.setHeader('Content-Type', 'application/json');
-                        res.send({error: "not enough buying power"});
+                        res.send({error: "Insufficient funds in wallet."});
                     } else {
                         //enough buy power--> start buying
                         let newWallet = results.wallet - cost;
