@@ -56,6 +56,7 @@ export default function Page() {
             <div className = "text-center m-5 mb-0">
                 <button type="submit" className="animate w-64 bg-emerald-400 hover:bg-emerald-500 hover:underline rounded-full py-2 px-10">Submit</button>
                 <p className="mt-5">Don't have an account? <Link className="text-emerald-400" href="/register">Sign up</Link></p>
+                <p className="mt-5">Forgot your password? <Link className="text-emerald-400" href="/forgot-password">Reset</Link></p>
             </div>
 
             <p className = "text-red-500 text-center">{error}</p>

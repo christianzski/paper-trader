@@ -28,8 +28,8 @@ export default async function RootLayout({ children }) {
   
     const user = await authenticate.login(userId, session);
 
-    const loginPaths = ["/", "/login", "/register"];
-  
+    const loginPaths = ["/", "/login", "/register", "/forgot-password"];
+
     if (!user && !loginPaths.includes(path)) {
       redirect("/");
     } else if (user) {

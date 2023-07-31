@@ -7,7 +7,7 @@ export default function Redirect({authenticated}) {
     const router = useRouter();
     const path = usePathname();
 
-    if(!authenticated && !(path == '/login' || path == '/register')) {
+    if(!authenticated && !(path == '/login' || path == '/register' || path == '/forgot-password')) {
        useEffect(() => {
             router.push("/");
         }, []);

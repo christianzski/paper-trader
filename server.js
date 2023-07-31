@@ -17,6 +17,7 @@ const verification = require('./api/verification')
 const register = require('./api/Register');
 const login = require('./api/Login');
 const forgotPassword = require('./api/forgotPassword');
+const resetPassword = require('./api/resetPassword');
 const logout = require('./api/logout');
 
 const user = require('./api/user');
@@ -52,7 +53,9 @@ nextApp.prepare()
 
     server.post('/api/logout', logout.api);
 
-    server.post('/api/Register', forgotPassword.api);
+    server.post('/api/forgot-password', forgotPassword.api);
+
+    server.post('/api/reset-password', forgotPassword.api);
 
     server.post('/api/verification', verification.api);
 

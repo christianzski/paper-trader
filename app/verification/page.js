@@ -61,7 +61,7 @@ export default function Page() {
             <div className = "text-center m-5 mb-0 mt-10">
                 <button onClick={() => verify()} className="animate w-64 bg-emerald-400 hover:bg-emerald-500 hover:underline rounded-full py-2 px-10">Submit</button>
                 <p className = "text-red-500 text-center">{error}</p>
-                <p className="mt-5">Didn't receive an email? <Link className="text-emerald-400" href="/register">Click here</Link> to resend</p>
+                <p className="mt-5">Didn't receive an email? <Link className="text-emerald-400" href="/">Click here</Link> to resend</p>
             </div>
         </div>
     );
