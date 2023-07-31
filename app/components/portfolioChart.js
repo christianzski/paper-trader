@@ -11,6 +11,7 @@ export default function PortfolioChart() {
     const params = useSearchParams();
 
     const [balance, setBalance] = useState(0);
+    const [value, setValue] = useState(0);
 
     const [low, setLow] = useState(0);
     const [high, setHigh] = useState(0);
@@ -69,7 +70,11 @@ export default function PortfolioChart() {
 
                 setData(chartData);
                 setLow(low); setHigh(high);
-                setIsUp(chartData[0].Price < chartData[chartData.length - 1].Price);
+
+                if(chartData.length > 0) {
+                    setIsUp(chartData[0].Price < chartData[chartData.length - 1].Price);
+                    setValue(chartData[chartData.length - 1].Price);
+                }
             }
         })
     }, []);
@@ -87,16 +92,17 @@ export default function PortfolioChart() {
                 <div className="inline-block bg-sky-100 px-3 mr-1 rounded-lg font-bold dark:text-slate-300 normalText">1 Month</div>
                 <div className="h-full inline-block">-</div>
                 <div className="inline-block bg-sky-100 px-3 ml-1 rounded-lg font-bold dark:text-slate-300 normalText">
-                    {((balance / 10000) * 100.0).toFixed(2)}%
+                    {((value / 10000) * 100.0 - 100.0).toFixed(2)}%
                 </div>
                 <div className= "w-full text-center p-1">
-                    <p className = "py-1 px-3 interBold">$ {balance.toFixed(2)}</p>
+                    <p className = "py-1 px-3 interBold">Balance $ {balance.toFixed(2)}</p>
+                    <p className = "py-1 px-3 interBold">Valuation $ {value.toFixed(2)}</p>
                 </div>
             </div>
             
         </div>
         <div className="w-full">
-        <Chart data={data} domain={[low - low * 0.05, high - high * 0.05]} isUp={isUp}/>
+        <Chart data={data} domain={[low - (high - low) * 0.05, high + (high - low) * 0.05]} isUp={isUp}/>
         </div>
         </>);
 };
