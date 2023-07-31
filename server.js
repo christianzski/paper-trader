@@ -38,6 +38,9 @@ const cookieParser = require('cookie-parser');
 
 const portValue = require('./api/portValue');
 
+const updatePhoto = require('./api/updatePhoto');
+const getNews = require('./api/getNews');
+
 nextApp.prepare()
   .then(() => {
     const server = express();
@@ -95,6 +98,12 @@ nextApp.prepare()
 
     // Search for symbols
     server.get('/search', search.api);
+
+    // Update profile picture for account
+    server.post('/api/updatePhoto', updatePhoto.api);
+
+    // Get stock news data
+    server.get('/api/getNews', getNews.api);
 
     server.get('*', async (req, res) => {
       const parsed = url.parse(req.url, true);

@@ -37,7 +37,7 @@ export default function Page() {
     }
 
     return (
-        <div className="mt-5 block rounded-lg m-auto bg-slate-200 max-w-sm p-6 shadow-lg drop-shadow-lg">
+        <div className="mt-5 block rounded-lg m-auto bg-slate-50 max-w-sm p-6 shadow-lg drop-shadow-lg">
             <h3 className="font-bold text-center">Login</h3>
 
             <form onSubmit={login}>

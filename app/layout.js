@@ -43,7 +43,7 @@ export default async function RootLayout({ children }) {
   
     const renderAuthenticatedContent = () => (
       <div className="">
-        <nav className="border-b relative group pb-20">  
+        <nav className="relative group pb-20">  
             <Header user={user} />
         </nav>
         <div className= "pt-30">

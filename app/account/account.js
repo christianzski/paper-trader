@@ -2,15 +2,46 @@
 import Link from 'next/link'
 import { useRouter } from 'next/navigation' // Corrected import statement
 import React, { useState } from "react";
+import OptionAccount from '../components/optionAccount';
+import { update } from '@react-spring/web';
 
 export default function Account( {user}) {
 
+
+    const options = {
+        weekday: "long",
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      };
+
+    const [profilePic, setProfilePic] = useState(user.photo);
+
+    let accountCreated = new Date(user.accountCreated).toLocaleString("en-US", options);
+    
+    async function updatePhoto(profiPicParam) {
+        await fetch("/api/updatePhoto", {
+            method: 'POST',
+            mode: 'cors',
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                newPhoto: profiPicParam
+            })
+        }).then(async response => {
+            const data = await response.json();
+            console.log(data);
+        }).catch(error => {
+            setError("A server error has occurred.");
+        })
+    };
 
     const router = useRouter();
     const [error, setError] = useState("");
     const [showEmail, setShowEmail] = useState(false);
     const [page, setPage] = useState('profile');
-    const [profilePic, setProfilePic] = useState(0);
+    
     const [showDiv, setShowDiv] = useState(false);
 
     function hideEmail(email) {
@@ -58,6 +89,7 @@ export default function Account( {user}) {
         };
 
         return (
+
             <div>
             {showDiv ? (
                 <div className = "w-100">
@@ -70,7 +102,7 @@ export default function Account( {user}) {
                         ))}
                     </div>
 
-                    <button className = "rounded-lg bg-green-300 p-2 normalText" onClick={handleClick}>Save</button>
+                    <button className = "rounded-lg bg-green-300 p-2 normalText" onClick={ () => {handleClick(); updatePhoto(profilePic.toString() )} }>Save</button>
 
                 </div>
             
@@ -83,7 +115,7 @@ export default function Account( {user}) {
 
     const renderProfile = () => (
         <div className="flex flex-col p-8">
-
+            
             <div className="py-4">
                 <button className="rounded-full p-1 bg-gray-300 hover:bg-gray-400 text-slate-100">
                     <img src = {`images/pic${profilePic || user.photo}.png`} width={100} height={100}></img>
@@ -101,19 +133,8 @@ export default function Account( {user}) {
             </div>
             
             <div className = "flex flex-col items-center">
-                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4 ">
-                    Change Password
-                </button>
-                
-                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4">
-                    Change Email
-                </button>
-                
-                <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mt-4">
-                    Delete Account
-                </button>
             </div>
-            
+            <OptionAccount/>
         </div>
     )
 
@@ -122,9 +143,9 @@ export default function Account( {user}) {
             <p className = "interBold py-1">Balance ${(user.wallet).toFixed(2)}</p>
             
 
-            <p className="normalText">Highest Account Balance: $ {user.highestBalance}</p>
-            <p className="normalText">Lowest Account Balance: $ {user.lowestBalance}</p>
-            <p className="normalText">Account Created: July 10, 2021</p>
+            <p className="normalText">Highest Account Balance: ${user.highestBalance}</p>
+            <p className="normalText">Lowest Account Balance: ${user.lowestBalance}</p>
+            <p className="normalText">Account Created: {accountCreated}</p>
         </div>
     )
 
@@ -132,14 +153,14 @@ export default function Account( {user}) {
         
         <div className="flex-col justify-center">
             <button 
-                    className="interBold bg-teal-300 hover:bg-cyan-100 text-white font-bold py-2 px-4 rounded-t-lg" 
+                    className="h-11 normalText bg-slate-100 hover:bg-cyan-100 text-white font-bold py-2 px-4 rounded-t-lg" 
                     onClick={() => setPage(page === 'profile' ? 'analytics' : 'profile')}
                 >
                      {page === 'profile' ? 'Profile' : 'Analytics'}
                 </button>
         
             
-            <div className = "w-1/2 mx-auto text-center mb-0 bg-contain py-3 bg-gradient-to-b from-teal-300 to-rose-300 rounded-lg drop-shadow-lg">
+            <div className = "w-1/2 mx-auto text-center mb-0 bg-contain py-3 bg-gradient-to-b from-slate-100 to-rose-100 rounded-lg drop-shadow-lg">
                 {page === 'profile' ? renderProfile() : renderAnalytics()}
                 
                 <button onClick={() => logout()} className="animate w-30 bg-red-500 hover:bg-red-400 rounded-full py-2 px-10 no-underline">Logout</button>

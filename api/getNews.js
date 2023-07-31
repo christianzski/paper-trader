@@ -1,15 +1,10 @@
-
-
-// Not Done
-
-
-async function get_News(symbol, startDate, interval) {
+async function get_News(symbol, startDate, endDate) {
     const response = await fetch('https://finnhub.io/api/v1/company-news?symbol='
     + symbol
     + '&from='
-    + startDate
-    + '&to='
     + endDate
+    + '&to='
+    + startDate
     + '&token='
     + process.env.FINNHUB_API_KEY);
   
@@ -17,19 +12,23 @@ async function get_News(symbol, startDate, interval) {
   }
   
   module.exports = {
-      api: function(req, res) {
-          let symbol = req.params.symbol;
-          let time = req.params.time;
+      api: async function(req, res) {
+
+          let symbol = req.body.symbol;
+          let startDate = req.body.startDate;
+          let endDate = req.body.endDate;
           
-          //Valid intervals: [1m, 2m, 5m, 15m, 30m, 60m, 90m, 1h, 1d, 5d, 1wk, 1mo, 3mo]
-          get_history(symbol, time).then(result => {
-              let history = result['chart']['result']['0']['indicators']['quote']['0']['close'] || [];
-              history = history.filter(item => item != null);
-  
-              res.setHeader('Content-Type', 'application/json');
-              res.send(JSON.stringify({symbol: symbol, priceHistory: history}));
+          var error;
+          var status = "failed";
+          
+          get_News(symbol, startDate, endDate).then(result => {
+            let arrNews = result;
+            res.setHeader('Content-Type', 'application/json');
+            res.status(200).json(arrNews);
           }).catch(err => {
-              res.sendStatus(501);
+            res.sendStatus(501);
           });
+
+
       }
-  };
+  }

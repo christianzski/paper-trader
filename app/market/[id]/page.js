@@ -2,8 +2,28 @@ import { headers } from 'next/headers'
 import Chart from '../../components/chart.js'
 import Trade from '@/components/trade'
 import Overview from './overview'
+import RenderNews from './renderNews.js'
 
 export default async function Page({params}) {
+
+
+  function getDates() {
+    const currentDate = new Date();
+  
+    const weekAgoDate = new Date();
+    weekAgoDate.setDate(currentDate.getDate() - 7);
+  
+    const formatDate = date => date.toISOString().split('T')[0];
+    
+    return {
+      currentDate: formatDate(currentDate),
+      weekAgoDate: formatDate(weekAgoDate)
+    };
+  }
+
+  let {currentDate, weekAgoDate} = getDates();
+
+
   let quote = 0;
   let list = headers();
 
@@ -67,7 +87,9 @@ export default async function Page({params}) {
           <Chart data={chartData} domain={domain} isUp={isUp}/>
         </div>
       </div>
-
+      
       <Trade symbol={params.id.toString().toUpperCase()} price={quote}/>
+      {/* <RenderNews symbol={params.id.toString().toUpperCase()} startDate={currentDate} endDate={weekAgoDate}/> */}
+
     </div>);
 }
