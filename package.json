@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest",
+    "test": "jest --runInBand",
     "build": "next build",
     "start": "NODE_ENV=production node server.js -p $PORT"
   },

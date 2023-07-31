@@ -19,12 +19,12 @@ describe("/post login",()=>{
         it("will give object with seccess and user's id", async ()=>{
             var agent = request.agent(server);
             var result = await agent.post("/api/Login")
-                .send({"login":"poonp","password":"testing"})
+                .send({"login":"hiTesting","password":"COP4331!"})
                 .set('Accept', 'application/json');
             
             var parsedResult = JSON.parse(result.text);
             expect(parsedResult.message).toBe("Success");
-            expect(parsedResult.userid).toBe(2);
+            expect(parsedResult.userid).toBe(17);
         })
 
         it("will give status failed, otherwise",async ()=>{
