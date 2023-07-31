@@ -59,13 +59,13 @@ module.exports = {
             }
 
             if(status === 'success') {
-                await sendEmail.api(email, "Your Verification Code");
+                sendEmail.api(email, "Your Verification Code");
                 //if wanting to verify again do we want to update sendEmail with cookies or keep it the same?
 
                 const expiry = 1000 * 3600 * 5; // By default, expire in 5 hours
                 res.cookie('user', id, { maxAge: expiry, httpOnly: true });
                 res.cookie('session', getToken, { maxAge: expiry, httpOnly: true });
-                res.cookie('username', username, { maxAge: expiry, httpOnly: true });
+                res.cookie('username', login, { maxAge: expiry, httpOnly: true });
 
                 var ret = { token: getToken, status: status };
                 res.status(201).json(ret);
