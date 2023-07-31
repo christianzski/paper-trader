@@ -23,17 +23,21 @@ module.exports = {
     api: async function (req, res) {
         try {
             const user = await authenticate.login(req.cookies.user, req.cookies.session);
-            const login = req.params.user;
+            const login = req.query.user;
 
             if(user) {
                 await db.connect(async (db) => {
-                    
+                    let result = {friends: [], incoming: [], outgoing: []};
                     let friends = await db.collection('Friends').findOne({"userId": user.id});
 
-                    let result = friends.friendList
+                    if(friends) {
+                        result.friends = friends.friendList;
+                        result.incoming = friends.inComingReq;
+                        result.outgoing = friends.outGoingReq;
+                    }
 
                     if(login != undefined) {
-                        result = result.filter((name) => name.toLowerCase().indexOf(login) >= 0);
+                        result.friends = result.friends.filter((name) => name.toLowerCase().indexOf(login) >= 0);
                     }
 
                     res.setHeader('Content-Type', 'application/json');

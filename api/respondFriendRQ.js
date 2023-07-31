@@ -21,11 +21,11 @@ module.exports = {
                     const addUserFriend = await db.collection('Friends').findOne({"userId":addUser.id});
 
                     //in order to respond, it must be within the incoming Request
-                    if(respondUserFriend.inComingReq.find(element => element != addUser.loginId)){
+                    if(!respondUserFriend || !respondUserFriend.inComingReq.includes(addUser.loginId)){
                         //not in inComingReq
                         res.setHeader('Content-Type', 'application/json');
                         res.send(JSON.stringify("user wasn't being added from that userName"));
-                    } else{
+                    } else if(respondUserFriend && addUserFriend) {
                         //being added, start to respond this
 
                         //take out from the outgoing from addUserFriend
@@ -53,6 +53,9 @@ module.exports = {
                         } 
                         res.setHeader('Content-Type', 'application/json');
                         res.send(JSON.stringify("successfully responded"));
+                    } else {
+                        res.setHeader('Content-Type', 'application/json');
+                        res.send(JSON.stringify({error: "an error occurred"}));
                     }
 
                 } else {

@@ -37,13 +37,16 @@ export default function Page() {
 
     const [page, setPage] = useState(0);
     const [passwordError, setPasswordError] = useState("");
+    const [firstNameError, setFirstNameError] = useState("");
+    const [lastNameError, setLastNameError] = useState("");
+    const [usernameError, setUsernameError] = useState("");
+    const [emailError, setEmailError] = useState("");
+
     const [registerError, setRegisterError] = useState("");
 
     async function next() {
-        verifyPassword();
-
-        console.log("err: " + passwordError);
-        if(passwordError == "") {
+        if(verifyFirstName() == "" && verifyLastName() == "" && verifyUsername() == ""
+        && verifyPassword() == "" && verifyEmail() == "") {
             let inputs = input;
             inputs["username"] = document.getElementById("username").value;
             inputs["password"] = document.getElementById("password").value;
@@ -94,26 +97,92 @@ export default function Page() {
         .then(response => {
             if(response.error || response.status != "success") {
                 setRegisterError(response.status);
+            } else {
+                window.location.href = "/";
             }
         });
     }
 
+    function verifyFirstName() {
+        let error = "";
+
+        const name = document.getElementById("firstName").value;
+        if(name.length == 0) {
+            error = "A first name is required!";
+        }
+
+        setFirstNameError(error);
+        return error;
+    }
+
+    function verifyLastName() {
+        let error = "";
+
+        const name = document.getElementById("lastName").value;
+        if(name.length == 0) {
+            error = "A last name is required!";
+        }
+
+        setLastNameError(error);
+        return error;
+    }
+
+    function verifyUsername() {
+        let error = "";
+
+        const username = document.getElementById("username").value;
+        if(username.length >= 3) {
+            if(username.match(/[^A-Za-z0-9_]/g)) {
+                error = "Username must only have alphanumerics and underscores!"
+                setUsernameError(error);
+            } else {
+                setUsernameError("");
+            }
+        } else {
+            error = "Username must be at least 3 characters!";
+            setUsernameError(error);
+        }
+
+        return error;
+    }
+
+    function verifyEmail() {
+        let error = "";
+
+        const email = document.getElementById("email").value;
+        
+        if(!email.match(/^\S+@\S+\.\S+$/g)) {
+            error = "Enter a valid email!"
+        }
+
+        setEmailError(error);
+        return error;
+    }
+
     function verifyPassword() {
+        let error = "";
+
         const password = document.getElementById("password").value;
-        console.log("pass: '" + password + "'");
         if(password.length >= 7) {
             if(!password.match(/[0-9]/g)) {
-                setPasswordError("Password must have at least one number!");
+                error = "Password must have at least one number!";
+                setPasswordError(error);
             } else if(!password.match(/[A-Z]/g)) {
-                setPasswordError("Password must have at least one upper case letter!");
+                error = "Password must have at least one upper case letter!";
+                setPasswordError(error);
             } else if(!password.match(/[!@#$%^&*]/g)) {
-                setPasswordError("Password must have at least one special character!");
+                error = "Password must have at least one special character!";
+                setPasswordError(error);
             } else if(password != document.getElementById("passwordConfirm").value) {
-                setPasswordError("Passwords must match!");
+                error = "Passwords must match!";
+                setPasswordError(error);
             } else setPasswordError("");
         } else {
-            setPasswordError("Password must be at least 7 characters");
+            error = "Password must be at least 7 characters";
+            setPasswordError(error);
         }
+
+        return error;
     }
 
     return (
@@ -132,17 +201,29 @@ export default function Page() {
             <div className="m-5">
                 <label className="font-light" htmlFor="firstName">First Name</label>
                 <p className="font-light w-full rounded-full text-slate-50 bg-red-400 pl-1 text-xs"></p>
-                <input className="bg-opacity-0" type="text" id="firstName" defaultValue={`${input["firstName"]}`}/>
+                <input className="bg-opacity-0" type="text" id="firstName" onChange={verifyFirstName} defaultValue={`${input["firstName"]}`}/>
+                <div className="flex items-center">
+                    {firstNameError != "" ? <XMarkIcon width="24" height="24" color='red'/> : <></>} 
+                    <p className="w-full text-slate-900 pl-1 text-xs">{firstNameError}</p>
+                </div>
             </div>
 
             <div className="m-5">
                 <label className="font-light" htmlFor="lastName">Last Name</label>
-                <input className="bg-opacity-0" type="text" id="lastName" defaultValue={`${input["lastName"]}`}/>
+                <input className="bg-opacity-0" type="text" id="lastName" onChange={verifyLastName} defaultValue={`${input["lastName"]}`}/>
+                <div className="flex items-center">
+                    {lastNameError != "" ? <XMarkIcon width="24" height="24" color='red'/> : <></>} 
+                    <p className="w-full text-slate-900 pl-1 text-xs">{lastNameError}</p>
+                </div>
             </div>
 
             <div className="m-5">
                 <label className="font-light" htmlFor="username">Username</label>
-                <input className="bg-opacity-0" type="text" id="username" defaultValue={`${input["username"]}`}/>
+                <input className="bg-opacity-0" type="text" id="username" onChange={verifyUsername} defaultValue={`${input["username"]}`}/>
+                <div className="flex items-center">
+                    {usernameError != "" ? <XMarkIcon width="24" height="24" color='red'/> : <></>} 
+                    <p className="w-full text-slate-900 pl-1 text-xs">{usernameError}</p>
+                </div>
             </div>
 
             <div className="m-5">
@@ -161,7 +242,11 @@ export default function Page() {
 
             <div className="m-5">
                 <label className="font-light" htmlFor="email">Email Address</label>
-                <input className="bg-opacity-0" type="text" id="email" defaultValue={`${input["email"]}`}/>
+                <input className="bg-opacity-0" type="text" id="email" onChange={verifyEmail} defaultValue={`${input["email"]}`}/>
+                <div className="flex items-center">
+                    {emailError != "" ? <XMarkIcon width="24" height="24" color='red'/> : <></>} 
+                    <p className="w-full text-slate-900 pl-1 text-xs">{emailError}</p>
+                </div>
             </div>
 
             <div className = "text-center m-5 mb-0">

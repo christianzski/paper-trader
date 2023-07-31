@@ -65,7 +65,7 @@ nextApp.prepare()
 
     server.post('/api/removeFriend', removeFriend.api);
 
-    server.get('/friendList/:user', friendList.api);
+    server.get('/friendList', friendList.api);
 
     /* User Favorites */
     server.post('/api/favorite', favorite.toggle);

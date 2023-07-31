@@ -8,7 +8,7 @@ module.exports = {
             const userAdding = req.body.userAdding;
             const curUser = await authenticate.login(req.cookies.user, req.cookies.session);
 
-            var error;
+            var error = "";
             var status = "failed";
 
             await db.connect (async (db) => {    
@@ -17,14 +17,22 @@ module.exports = {
                     const addUser = await db.collection('Users').findOne({loginId: userAdding});
                     const curUserFriends = await db.collection('Friends').findOne({userId: curUser.id});
 
-                    if(curUserFriends.inComingReq.find(element => element == addUser.loginId) || curUserFriends.outGoingReq.find(element => element == addUser.loginId)) {
+                    if(addUser) {
+                        const addUserFriends = await db.collection('Friends').findOne({userId: addUser.id});
+                        if(!addUserFriends) {
+                            await db.collection('Friends').insertOne({inComingReq:[], outGoingReq:[], friendList:[], userId: addUser.id});
+                        }
+                    } else error = "User does not exist";
+
+                    if(!curUserFriends) {
+                        await db.collection('Friends').insertOne({inComingReq:[], outGoingReq:[], friendList:[], userId: curUser.id});
+                    } else if(curUserFriends.inComingReq.find(element => element == addUser.loginId) || curUserFriends.outGoingReq.find(element => element == addUser.loginId)) {
                         error = "User already has incoming/outgoing request";
-                    }
-                    else if(curUserFriends.friendList.find(element => element == addUser.loginId)
-                    ) {
+                    } else if(curUserFriends.friendList.find(element => element == addUser.loginId)) {
                         error = 'User is already added';
                     }
-                    else {
+
+                    if(error == "") {
                         await db.collection('Friends').updateOne(
                             {
                                 userId:curUser.id
