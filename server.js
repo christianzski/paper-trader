@@ -76,6 +76,8 @@ nextApp.prepare()
     server.post('/api/buy', buy.api);
 
     server.post('/api/sell', sell.api);
+
+    server.get('/api/portfolio', portValue.api);
     
     server.get('/api/get-shares', getShares.api);
 

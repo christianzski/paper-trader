@@ -43,28 +43,30 @@ module.exports = {
     },
 
     get: async function(req, res) {
-        const user = await authenticate.login(req.cookies.user, req.cookies.session);
+        try {
+            const user = await authenticate.login(req.cookies.user, req.cookies.session);
 
-        if(user) {
-            let id = user.id;
+            if(user) {
+                let id = user.id;
 
-            await db.connect(async (db) => {
-                if(req.query.user) {
-                    const friend = await friendList.getFriend(db, id, req.query.user);
-                    if(friend) id = friend.id;
-                    else {
-                        res.setHeader('Content-Type', 'application/json');
-                        res.send(JSON.stringify({error: "unauthorized"}));
+                await db.connect(async (db) => {
+                    if(req.query.user) {
+                        const friend = await friendList.getFriend(db, id, req.query.user);
+                        if(friend) id = friend.id;
+                        else {
+                            res.setHeader('Content-Type', 'application/json');
+                            res.send(JSON.stringify({error: "unauthorized"}));
 
-                        return;
+                            return;
+                        }
                     }
-                }
 
-                let watchlist = await db.collection('Watchlist').findOne({userId: id});
+                    let watchlist = await db.collection('Watchlist').findOne({userId: id});
 
-                res.setHeader('Content-Type', 'application/json');
-                res.send(JSON.stringify({favorites: watchlist?.favorites || []}));
-            });
-        };
+                    res.setHeader('Content-Type', 'application/json');
+                    res.send(JSON.stringify({favorites: watchlist?.favorites || []}));
+                });
+            }
+        } catch(e) {}
     }
 }

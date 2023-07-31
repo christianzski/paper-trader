@@ -10,26 +10,28 @@ async function get_history(symbol, interval) {
 
 module.exports = {
     api: function(req, res) {
-        let symbol = req.params.symbol;
-        let time = req.params.time;
-        
-        //Valid intervals: [1m, 2m, 5m, 15m, 30m, 60m, 90m, 1h, 1d, 5d, 1wk, 1mo, 3mo]
-        get_history(symbol, time).then(result => {
-            let history = result['chart']['result']['0']['indicators']['quote']['0']['close'] || [];
-            let timestamp = [];
+        try {
+            let symbol = req.params.symbol;
+            let time = req.params.time;
+            
+            //Valid intervals: [1m, 2m, 5m, 15m, 30m, 60m, 90m, 1h, 1d, 5d, 1wk, 1mo, 3mo]
+            get_history(symbol, time).then(result => {
+                let history = result['chart']['result']['0']['indicators']['quote']['0']['close'] || [];
+                let timestamp = [];
 
-            for(let i = 0; i < history.length; ++i) {
-                if(history[i] != null) {
-                    timestamp.push(result['chart']['result']['0']['timestamp'][i] || 0);
+                for(let i = 0; i < history.length; ++i) {
+                    if(history[i] != null) {
+                        timestamp.push(result['chart']['result']['0']['timestamp'][i] || 0);
+                    }
                 }
-            }
 
-            history = history.filter(item => item != null);
+                history = history.filter(item => item != null);
 
-            res.setHeader('Content-Type', 'application/json');
-            res.send(JSON.stringify({symbol: symbol, priceHistory: history, timestamps: timestamp}));
-        }).catch(err => {
-            res.sendStatus(501);
-        });
+                res.setHeader('Content-Type', 'application/json');
+                res.send(JSON.stringify({symbol: symbol, priceHistory: history, timestamps: timestamp}));
+            }).catch(err => {
+                res.sendStatus(501);
+            });
+        } catch(e) {}
     }
 };

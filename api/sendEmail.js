@@ -4,44 +4,45 @@ sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 const db = require('../db');
 
 module.exports = {
-    api: async function(email, subject){
+    api: async function(email, subject) {
+        try {
+            const num = Math.floor(100000 + Math.random() * 900000);
+            
+            const msg = {
+                to:email,
+                from:'support@21-trading.com',
+                subject:subject,
+                text: num + ' is your verification code.'
+            }
 
-        const num = Math.floor(100000 + Math.random() * 900000);
-        
-        const msg = {
-            to:email,
-            from:'support@21-trading.com',
-            subject:subject,
-            text: num + ' is your verification code.'
-        }
+            sgMail
+            .send(msg)
+            .then((response) => {
+                console.log(response[0].statusCode)
+                console.log(response[0].headers)
+            })
+            .catch((error) => {
+                console.error(error)
+            })
 
-        sgMail
-        .send(msg)
-        .then((response) => {
-            console.log(response[0].statusCode)
-            console.log(response[0].headers)
-        })
-        .catch((error) => {
-            console.error(error)
-        })
-
-        await db.connect (async (db) => {
-            try{
-                await db.collection('Users').updateOne(
-                    {
-                        "email" : email
-                    },
-                    {
-                        $set:{
-                            verificationCode:num
+            await db.connect (async (db) => {
+                try{
+                    await db.collection('Users').updateOne(
+                        {
+                            "email" : email
+                        },
+                        {
+                            $set:{
+                                verificationCode:num
+                            }
                         }
+                    )
                     }
-                )
-                }
-                catch(e) {
-                    console.error(e);
-                }
+                    catch(e) {
+                        console.error(e);
+                    }
 
-        });
+            });
+        } catch(e) {}
     }
 }

@@ -4,7 +4,8 @@ import React, { Fragment, useState } from "react";
 
 import { Listbox, Transition} from '@headlessui/react'
 import { CheckIcon, ChevronLeftIcon } from '@heroicons/react/20/solid'
-import {  } from '@heroicons/react/20/solid'
+import { XMarkIcon } from '@heroicons/react/20/solid'
+
 import SecurityQuestion from './security';
 
 const q1 = [
@@ -38,18 +39,23 @@ export default function Page() {
     const [passwordError, setPasswordError] = useState("");
 
     async function next() {
-        let inputs = input;
-        inputs["username"] = document.getElementById("username").value;
-        inputs["password"] = document.getElementById("password").value;
-        inputs["firstName"] = document.getElementById("firstName").value;
-        inputs["lastName"] = document.getElementById("lastName").value;
+        verifyPassword();
 
-        inputs["passwordConfirm"] = document.getElementById("passwordConfirm").value;
-        inputs["email"] = document.getElementById("email").value;
+        console.log("err: " + passwordError);
+        if(passwordError == "") {
+            let inputs = input;
+            inputs["username"] = document.getElementById("username").value;
+            inputs["password"] = document.getElementById("password").value;
+            inputs["firstName"] = document.getElementById("firstName").value;
+            inputs["lastName"] = document.getElementById("lastName").value;
 
-        setInput(inputs);
+            inputs["passwordConfirm"] = document.getElementById("passwordConfirm").value;
+            inputs["email"] = document.getElementById("email").value;
 
-        setPage(1);
+            setInput(inputs);
+
+            setPage(1);
+        }
     }
 
     async function previous() {
@@ -72,21 +78,22 @@ export default function Page() {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                firstName: document.getElementById("firstName").value,
-                lastName: document.getElementById("lastName").value,
-                login: document.getElementById("username").value,
-                password: document.getElementById("password").value,
-                email: document.getElementById("email").value,
+                firstName: input["firstName"],
+                lastName: input["lastName"],
+                login: input["username"],
+                password: input["password"],
+                email: input["email"],
                 phone: "",
-                question1: "", answer1: "1",
-                question2: "", answer2: "2",
-                question3: "", answer3: "3"
+                question1: "", answer1: input["security1"],
+                question2: "", answer2: input["security2"],
+                question3: "", answer3: input["security3"]
             })
         });
     }
 
     function verifyPassword() {
         const password = document.getElementById("password").value;
+        console.log("pass: '" + password + "'");
         if(password.length >= 7) {
             if(!password.match(/[0-9]/g)) {
                 setPasswordError("Password must have at least one number!");
@@ -134,7 +141,10 @@ export default function Page() {
             <div className="m-5">
                 <label className="font-light" htmlFor="password">Password</label>
                 <input className="bg-opacity-0" type="password" id="password" onChange={verifyPassword} defaultValue={`${input["password"]}`}/>
-                <p className="font-light w-full text-slate-50 pl-1 text-xs">{passwordError}</p>
+                <div className="flex items-center">
+                    {passwordError != "" ? <XMarkIcon width="24" height="24" color='red'/> : <></>} 
+                    <p className="w-full text-slate-900 pl-1 text-xs">{passwordError}</p>
+                </div>
             </div>
 
             <div className="m-5">
