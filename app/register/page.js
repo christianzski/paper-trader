@@ -37,6 +37,7 @@ export default function Page() {
 
     const [page, setPage] = useState(0);
     const [passwordError, setPasswordError] = useState("");
+    const [registerError, setRegisterError] = useState("");
 
     async function next() {
         verifyPassword();
@@ -88,6 +89,12 @@ export default function Page() {
                 question2: "", answer2: input["security2"],
                 question3: "", answer3: input["security3"]
             })
+        })
+        .then(response => response.json())
+        .then(response => {
+            if(response.error || response.status != "success") {
+                setRegisterError(response.status);
+            }
         });
     }
 
@@ -193,6 +200,7 @@ export default function Page() {
                 </div>
                 
                 <button onClick={register} className="animate w-64 block m-auto text-center bg-emerald-400 hover:bg-emerald-500 hover:underline rounded-full py-2 px-10">Register</button>
+                <p className="text-red-400 text-center">{registerError}</p>
             </div>)}
 
         </div>
