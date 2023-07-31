@@ -147,6 +147,38 @@ export default function Page() {
         );
     }
 
+    const incomingRequests = incoming.map((request) => {
+        return (
+        <div className="flex w-full items-center m-1 justify-between hover:bg-slate-200 bg-zinc-50 drop-shadow-md rounded-md">
+            <div className = "flex items-center"> 
+                <UserCircleIcon width="50" height="50"/>
+                <p className = "font-bold text-lg ml-1 normalText">{request}</p>
+            </div>
+
+            <div className = "flex justify-around items-center">
+                <button onClick={() => respondRequest(request, "accept")}>
+                    <CheckCircleIcon color="green" width="24" height="24"/>
+                </button>
+
+                <button onClick={() => respondRequest(request, "reject")}>
+                    <XCircleIcon color="red" width="24" height="24"/>
+                </button>
+            </div>
+        </div>
+        );
+    });
+
+    const outgoingRequests = outgoing.map((request) => {
+        return (
+        <div className="flex w-full items-center m-1 justify-between hover:bg-slate-200 bg-zinc-50 drop-shadow-md rounded-md">
+            <div className = "flex items-center"> 
+                <UserCircleIcon width="50" height="50"/>
+                <p className = "font-bold text-lg ml-1 normalText">{request}</p>
+            </div>
+        </div>
+        );
+    });
+
     return (
         <div className="md:grid block p-5 w-full m-auto grid-flow-row-dense grid-cols-3 pl-10 pr-10">
             <div className="max-w-5xl p-2 col-span-2">
@@ -177,42 +209,14 @@ export default function Page() {
                 <div className="text-center m-auto max-w-[300px] mb-10">
                     <h3 className="font-bold">Incoming Requests</h3>
                     <div className = "relative">
-                        {incoming.map((request) => {
-                            return (
-                            <div className="flex w-full items-center m-1 justify-between hover:bg-slate-200 bg-zinc-50 drop-shadow-md rounded-md">
-                                <div className = "flex items-center"> 
-                                    <UserCircleIcon width="50" height="50"/>
-                                    <p className = "font-bold text-lg ml-1 normalText">{request}</p>
-                                </div>
-
-                                <div className = "flex justify-around items-center">
-                                    <button onClick={() => respondRequest(request, "accept")}>
-                                        <CheckCircleIcon color="green" width="24" height="24"/>
-                                    </button>
-
-                                    <button onClick={() => respondRequest(request, "reject")}>
-                                        <XCircleIcon color="red" width="24" height="24"/>
-                                    </button>
-                                </div>
-                            </div>
-                            );
-                        })}
+                        {loading == false ? incomingRequests : <div className="loading" role="status"></div>}
                     </div>
                 </div>
 
                 <div className="text-center m-auto max-w-[300px]">
                     <h3 className="font-bold">Outgoing Requests</h3>
                     <div className = "relative">
-                        {outgoing.map((request) => {
-                            return (
-                            <div className="flex w-full items-center m-1 justify-between hover:bg-slate-200 bg-zinc-50 drop-shadow-md rounded-md">
-                                <div className = "flex items-center"> 
-                                    <UserCircleIcon width="50" height="50"/>
-                                    <p className = "font-bold text-lg ml-1 normalText">{request}</p>
-                                </div>
-                            </div>
-                            );
-                        })}
+                        {loading == false ? outgoingRequests : <div className="loading" role="status"></div>}
                     </div>
                 </div>
             </div>

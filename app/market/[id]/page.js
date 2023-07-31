@@ -1,4 +1,5 @@
-import { headers } from 'next/headers'
+'use client'
+
 import Chart from '../../components/chart.js'
 import Trade from '@/components/trade'
 import Overview from './overview'
@@ -25,7 +26,6 @@ export default async function Page({params}) {
 
 
   let quote = 0;
-  let list = headers();
 
   let chartData = [];
   let domain = [];
@@ -34,13 +34,13 @@ export default async function Page({params}) {
 
   const protocol = process.env.NODE_ENV === 'production' ? "https" : "http";
 
-  await fetch(protocol + "://" + list.headers.host + "/quote/" + params.id)
+  await fetch("/quote/" + params.id)
         .then((result) => result.json())
         .then((data) => {
           quote = data.latestPrice;
         });
 
-  await fetch(protocol + "://" + list.headers.host + "/history/" + params.id + "/2m")
+  await fetch("/history/" + params.id + "/2m")
         .then((result) => result.json())
         .then((data) => {
           let min = Math.max;
