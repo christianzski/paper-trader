@@ -14,9 +14,16 @@ function Chart({ data, domain, isUp}) {
   }
 
   let textColor = "#020617";
-  if (document.documentElement.classList.contains("dark")) 
-  {
-    textColor = "#cbd5e1"
+  let darkEnabled;
+  darkEnabled = document.documentElement.classList.contains("dark");
+  if (darkEnabled && isUp) {
+    textColor = "#cbd5e1";
+    graphColor = "#0b9e5e";
+
+  }
+  else if (darkEnabled) {
+    textColor = "#cbd5e1";
+    graphColor = "#a81947";
   }
   return (
     <div> 
