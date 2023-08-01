@@ -17,7 +17,6 @@ function Chart({ data, domain, isUp}) {
   if (document.documentElement.classList.contains("dark")) 
   {
     textColor = "#cbd5e1"
-    graphColor = "#cbd5e1";
   }
   return (
     <div> 
