@@ -133,13 +133,6 @@ section span {
 	letter-spacing: -1px;
   }
 
-.mdSizeInter {
-	font-weight: 700;
-	font-family: "Inter-Bold", "Inter", sans-serif;
-	font-size: 15px;
-	letter-spacing: -1px;
-  }
-
   .chartColor {
 		color: #bd19c8;
   }

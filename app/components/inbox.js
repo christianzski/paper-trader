@@ -155,7 +155,7 @@ export default function Inbox() {
                     <p className = {`font-bold text-lg mr-5 ${order.side == "buy" ? "text-green-400" : "text-red-400"} uppercase`}>
                         {order.side}
                     </p>
-                    <p className = "normalText px-2">{order.shares.toFixed(2)} Shares</p>
+                    <p className = "normalText px-2">{(Number)(order.shares).toFixed(2)} Shares</p>
                     <p className = "normalText px-2">${order.price}</p>
                     <p className="font-normal text-left text-slate-600 mb-3">{order.time}</p>
                 </div>
