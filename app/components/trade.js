@@ -9,7 +9,7 @@ export default function Trade({symbol, price}) {
     const [shares, setShares] = useState(<div className="loading"></div>);
     const [owned, setOwned] = useState(<div className="loading"></div>);
 
-    const [average, setAverage] = useState("");
+    const [average, setAverage] = useState(0);
 
     const [active, setActive] = useState("buy");
     const [error, setError] = useState("");
@@ -46,7 +46,7 @@ export default function Trade({symbol, price}) {
         .then((data) => {
             setShares("" + data["shares"]);
             setOwned("$" + (price * data["shares"]).toFixed(2));
-            setAverage("$" + data["price"]);
+            setAverage(data["price"]);
         });
     }, []);
 
@@ -83,7 +83,7 @@ export default function Trade({symbol, price}) {
 
     async function sell() {
         setLabel(<div className="loading"></div>);
-
+        
         fetch("/api/sell", {
             method: 'POST',
             mode: 'cors',
@@ -109,7 +109,10 @@ export default function Trade({symbol, price}) {
         }).catch(error => {
             setError("A server error has occurred.");
         }).finally(() => {
-            if(active == "buy") setLabel(<>PURCHASE</>);
+            if(active == "buy") {
+                setLabel(<>PURCHASE</>);
+                setBgColor('bg-rose-400')
+            }
             else setLabel(<>SELL</>);
         });
     }
@@ -133,7 +136,7 @@ export default function Trade({symbol, price}) {
             if(data["success"] === true) {
                 setShares("" + data["shares"]);
                 setOwned("$" + (price * data["shares"]).toFixed(2));
-                setAverage("$" + data["avg"]);
+                setAverage(data["avg"]);
 
                 get_orders();
 
@@ -151,12 +154,12 @@ export default function Trade({symbol, price}) {
     const renderBuys = () => {
         return (<>
             <button
-                className="rounded-lg w-1/2 max-w-[150px] bg-fuchsia-300 px-5 py-3 m-2 font-medium">
+                className="rounded-lg w-1/2 max-w-[150px] bg-teal-400 px-5 py-3 m-2 font-medium mdSizeInter">
                 BUY
             </button>
             <button
                 onClick={() => { setActive("sell"); setLabel(<>SELL</>); }}
-                className="rounded-lg w-1/2 max-w-[150px] bg-neutral-200 hover:bg-neutral-300 px-5 py-3 m-2 font-medium">
+                className="rounded-lg w-1/2 max-w-[150px] bg-neutral-200 hover:bg-neutral-300 px-5 py-3 m-2 mdSizeInter">
                 SELL
             </button></>)
     };
@@ -165,28 +168,28 @@ export default function Trade({symbol, price}) {
         return (<>
             <button
                 onClick={() => { setActive("buy"); setLabel(<>PURCHASE</>); }}
-                className="rounded-lg w-1/2 max-w-[150px] bg-neutral-200 hover:bg-neutral-300 px-5 py-3 m-2 font-medium">
+                className="rounded-lg w-1/2 max-w-[150px] bg-neutral-200 hover:bg-neutral-300 px-5 py-3 m-2 mdSizeInter">
                 BUY
             </button>
             <button
-                className="rounded-lg w-1/2 max-w-[150px] bg-fuchsia-300 px-5 py-3 m-2 font-medium">
+                className="rounded-lg w-1/2 max-w-[150px] bg-rose-400 px-5 py-3 m-2 mdSizeInter">
                 SELL
             </button></>)
     };
 
     const orders = (
-            <div className="max-w-5xl p-2 col-span-2">
+            <div className="max-w-5xl p-2 col-span-2 py-5">
                 <div className="max-w-5xl flex items-center columns-4">
                     <div className="flex items-center m-1">
-                        <div className = "rounded-full p-5 text-gray-200 bg-gray-900 mx-1 mr-2">
+                        <div className = "rounded-full text-gray-200 bg-gray-900 mx-1 mr-2">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" class="w-6 h-6">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                             </svg>
                         </div>
 
-                        <p className = "font-bold text-lg mr-5">Average Price</p>
+                        <p className = "font-bold text-lg mr-5 normalText">Average Purchase Price</p>
 
-                        <p className = "font-bold text-sm">{average}</p>
+                        <p className = "font-bold interBold">{average.toFixed(2)}</p>
                     </div>
                 </div>
 
@@ -215,33 +218,23 @@ export default function Trade({symbol, price}) {
 
     return (<>
     <div className="col-span-1">
-        <div className="text-center m-auto max-w-[300px]">
+        <div className="text-center m-auto max-w-[350px] bg-slate-50 shadow-lg p-2 rounded-md">
             <div className="m-auto">
-                <h1 className="font-bold text-xl">Current Assets</h1>
+                <h1 className="font-bold text-xl interBold py-3">Current Assets</h1>
                 <div className="flex w-full items-center justify-between">
-                    <div className="flex w-full items-center m-1">
-                        <div className = "rounded-full p-5 text-gray-200 bg-gray-900 mx-1">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z" />
-                            </svg>
-                        </div>
-                        <div className="grow">
-                            <h1 className="font-medium text-lg text-left">Shares Owned</h1>
-                            <h1 className="font-normal text-lg text-right">{shares}</h1>
+                    <div className="flex w-full items-center m-1 px-1">
+                        
+                        <div className="grow flex flex-row justify-between py-3">
+                            <h1 className="font-medium text-lg text-left mdSizeInter">Shares Owned</h1>
+                            <h1 className="font-normal text-lg text-right interBold">{shares}</h1>
                         </div>
                     </div>
                 </div>
-                <div className="flex items-center justify-between">
-                    <div className="flex w-full items-center m-1">
-                        <div className = "rounded-full p-5 text-gray-200 bg-gray-900 mx-1">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" class="w-6 h-6">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                            </svg>
-                        </div>
-
-                        <div className="grow">
-                            <h1 className="font-medium text-lg text-left">Total Owned</h1>
-                            <h1 className="font-normal text-lg text-right">{owned}</h1>
+                <div className="flex items-center justify-between pb-4">
+                    <div className="flex w-full items-center m-1 px-1">
+                        <div className="grow flex flex-row justify-between">
+                            <h1 className="font-medium text-lg text-left mdSizeInter">Total Owned</h1>
+                            <h1 className="font-normal text-lg text-right interBold">{owned}</h1>
                         </div>
                     </div>
                 </div>
@@ -253,12 +246,12 @@ export default function Trade({symbol, price}) {
             
             </div>
         
-            <div className="m-2">
-                <input type="text" className="m-2" placeholder="USD" id="price" data-decimals={2} onBeforeInput={filterNumber} onChange={inputPrice}/>
-                <input type="text" className="m-2" placeholder="Shares" id="shares" data-decimals={4} onBeforeInput={filterNumber} onChange={inputShares}/>
+            <div className="m-2 py-1">
+                <input type="text" className="m-2 px-2 mdSizeInter rounded-md" placeholder="USD" id="price" data-decimals={2} onBeforeInput={filterNumber} onChange={inputPrice}/>
+                <input type="text" className="m-2 px-2 mdSizeInter rounded-md" placeholder="Shares" id="shares" data-decimals={4} onBeforeInput={filterNumber} onChange={inputShares}/>
             </div>
 
-            <button onClick={active == "buy" ? buy : sell} className="rounded-lg w-1/2 max-w-[150px] bg-fuchsia-300 px-5 py-3 m-2 font-medium hover:bg-fuchsia-400">
+            <button onClick={active == "buy" ? buy : sell} className='rounded-lg w-1/2 max-w-[150px] bg-zinc-600 px-5 py-3 m-2 font-medium hover:bg-zinc-700 text-white mdSizeInter dark:bg-slate-600 dark:hover:bg-slate-700'>
                 {label}
             </button>
             <p className="text-center text-red-300">{error}</p>

@@ -133,10 +133,9 @@ section span {
 	letter-spacing: -1px;
   }
 
-.loginlogout {
+.mdSizeInter {
 	font-weight: 700;
 	font-family: "Inter-Bold", "Inter", sans-serif;
-	color: rgba(0, 0, 0, 0.9);
 	font-size: 15px;
 	letter-spacing: -1px;
   }
@@ -230,10 +229,9 @@ section span {
 }
 
 
-.loginlogout {
+.mdSizeInter {
 	font-weight: 700;
 	font-family: "Inter-Bold", "Inter", sans-serif;
-	color: rgba(0, 0, 0, 0.9);
 	font-size: 15px;
 	letter-spacing: -1px;
   }

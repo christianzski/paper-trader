@@ -15,7 +15,7 @@ const q1 = [
 ];
 
 const q2 = [
-    { id: 1, name: 'What was the make and model of your first car?', unavailable: false },
+    { id: 1, name: 'Make and model of your first car?', unavailable: false },
     { id: 2, name: 'In what city or town did your parents meet?', unavailable: false },
     { id: 3, name: 'What is the name of your favorite pet?', unavailable: false },
 ];
