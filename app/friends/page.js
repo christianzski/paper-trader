@@ -182,12 +182,12 @@ export default function Page() {
     return (
         <div className="md:grid block p-5 w-full m-auto grid-flow-row-dense grid-cols-3 pl-10 pr-10">
             <div className="max-w-5xl p-2 col-span-2">
-                <h3 className="font-bold">Friend List</h3>
+                <h3 className="mdSizeInter py-1 dark:text-white">Friend List</h3>
                 <div className = "relative">
                     <div className="flex absolute inset-y-0 right-0 items-center pl-3 pointer-events-none">
                         <svg className="w-5 h-5 text-gray-500 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
                     </div>
-                    <input type="search" id="default-search" onChange={handleChange} className="" placeholder="Search Friends..." required/>
+                    <input type="search" id="default-search" onChange={handleChange} className="rounded-md px-2 dark:bg-gray-500 dark:text-white font-bold" placeholder="Search Friends..." required/>
                 </div>
                 <div className="w-full">
                     {content}
@@ -197,9 +197,9 @@ export default function Page() {
 
             <div className="col-span-1">
                 <div className="text-center m-auto max-w-[300px] mb-10">
-                    <h3 className="font-bold">Add Friends</h3>
+                    <h3 className="mdSizeInter py-1">Add Friends</h3>
                     <div className = "relative">
-                        <input type="search" id="addFriend" className="" placeholder="Enter username..." required/>
+                        <input type="search" id="addFriend" className="rounded-md px-2" placeholder="Enter username..." required/>
 
                         <button onClick={addFriend} className="mt-2 animate w-64 block m-auto text-center bg-emerald-400 hover:bg-emerald-500 hover:underline rounded-full py-2 px-10">Add</button>
                         <p className="text-center">{addStatus}</p>
@@ -207,14 +207,14 @@ export default function Page() {
                 </div>
 
                 <div className="text-center m-auto max-w-[300px] mb-10">
-                    <h3 className="font-bold">Incoming Requests</h3>
+                    <h3 className="mdSizeInter py-1">Incoming Requests</h3>
                     <div className = "relative">
                         {loading == false ? incomingRequests : <div className="loading" role="status"></div>}
                     </div>
                 </div>
 
                 <div className="text-center m-auto max-w-[300px]">
-                    <h3 className="font-bold">Outgoing Requests</h3>
+                    <h3 className="mdSizeInter py-1">Outgoing Requests</h3>
                     <div className = "relative">
                         {loading == false ? outgoingRequests : <div className="loading" role="status"></div>}
                     </div>

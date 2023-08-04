@@ -17,7 +17,7 @@ export default function Account( {user}) {
 
     const [profilePic, setProfilePic] = useState(user.photo);
 
-    let accountCreated = new Date(user.accountCreated).toLocaleString("en-US", options);
+    let accountCreated = new Date(user.creationTime).toLocaleString("en-US", options);
     
     async function updatePhoto(profiPicParam) {
         await fetch("/api/updatePhoto", {

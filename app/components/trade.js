@@ -2,7 +2,9 @@
 
 import React, { useState, useEffect } from "react";
 
-export default function Trade({symbol, price}) {
+export default function Trade({symbol, price, user}) {
+
+    
     const [orderLog, setOrderLog] = useState([]);
 
     const [label, setLabel] = useState(<>PURCHASE</>);
@@ -238,6 +240,14 @@ export default function Trade({symbol, price}) {
                         </div>
                     </div>
                 </div>
+                <div className="flex justify-items-center pb-4">
+                    <div className="flex w-full m-1 px-1">
+                        <div className="grow">
+                            <h1 className="font-medium text-lg mdSizeInter justify-self-center text-gray-500">Current Purchasing Power</h1>
+                            <h1 className="font-normal text-lg interBold justify-self-center">$ {user.wallet}</h1>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div className="flex justify-center">
@@ -246,9 +256,9 @@ export default function Trade({symbol, price}) {
             
             </div>
         
-            <div className="m-2 py-1">
-                <input type="text" className="m-2 px-2 mdSizeInter rounded-md" placeholder="USD" id="price" data-decimals={2} onBeforeInput={filterNumber} onChange={inputPrice}/>
-                <input type="text" className="m-2 px-2 mdSizeInter rounded-md" placeholder="Shares" id="shares" data-decimals={4} onBeforeInput={filterNumber} onChange={inputShares}/>
+            <div className="m-2 py-3">
+                <input type="text" className="m-2 px-2 mdSizeInter rounded-md drop-shadow-md" placeholder="USD" id="price" data-decimals={2} onBeforeInput={filterNumber} onChange={inputPrice}/>
+                <input type="text" className="m-2 px-2 mdSizeInter rounded-md drop-shadow-md" placeholder="Shares" id="shares" data-decimals={4} onBeforeInput={filterNumber} onChange={inputShares}/>
             </div>
 
             <button onClick={active == "buy" ? buy : sell} className='rounded-lg w-1/2 max-w-[150px] bg-zinc-600 px-5 py-3 m-2 font-medium hover:bg-zinc-700 text-white mdSizeInter dark:bg-slate-600 dark:hover:bg-slate-700'>

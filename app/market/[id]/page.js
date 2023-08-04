@@ -1,11 +1,21 @@
+import authenticate from '../../../authenticate';
 import { headers } from 'next/headers'
 import Chart from '../../components/chart.js'
 import Trade from '@/components/trade'
 import Overview from './overview'
 import RenderNews from './renderNews.js'
+import { cookies } from 'next/headers'
+
+
 
 export default async function Page({params}) {
 
+    const cookieStore = cookies();
+    console.log(cookieStore);
+    const userId = cookieStore.get('user')?.value;
+    const session = cookieStore.get('session')?.value;
+
+    const user = await authenticate.login(userId, session);
 
   function getDates() {
     const currentDate = new Date();
@@ -91,7 +101,7 @@ export default async function Page({params}) {
         </div>
       </div>
       
-      <Trade symbol={params.id.toString().toUpperCase()} price={quote}/>
+      <Trade symbol={params.id.toString().toUpperCase()} price={quote} user={user}/>
       {/* <RenderNews symbol={params.id.toString().toUpperCase()} startDate={currentDate} endDate={weekAgoDate}/> */}
 
     </div>);
